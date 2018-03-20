@@ -1,0 +1,104 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Inbox</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <style type="text/css">
+        .mb {
+            margin-bottom: 5px;
+        }
+    </style>
+   
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="panel panel-primary" style="margin-top: 50px;">
+        <div class="panel-heading" style="height: 40px">
+            <div class="col-md-6">Managers</div>
+            <div class="col-md-6">
+                <a href='@Url.Action("Home", "Home")' style="color: white; margin-left: 10px; float: right">Home</a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <table id="allusers" class="table table-striped table-responsive table-bordered dataTable" style="width: 100%;font-size: 12px">
+                        <thead class="head">
+                        <tr>
+                            <th>FullName</th>
+                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>UserName</th>
+                            <th>Designation</th>
+                            <th>PhoneNo</th>
+                            <th>Branch</th>
+                            <th>Movement Authority</th>
+                            <th>Change Movement Authority</th>
+                            <th>Resource Authority</th>
+                            <th>Change resource Authority</th>
+                            <th>Remove Manager</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.js"></script>
+
+    <script type="text/javascript">
+        $("#allusers").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/JsonLoader/GetAllBranchManagers",
+                    type: "GET",
+                    dataType: "JSON"
+                },
+                //serverSide: "true",
+                processing: "true",
+                columns: [
+                    { data: "fullName", "autoWidth": true },
+                    { data: "gender", "autoWidth": true },
+                    { data: "email", "autoWidth": true },
+                    { data: "username", "autoWidth": true },
+                    { data: "designation", "autoWidth": true },
+                    { data: "phoneno", "autoWidth": true },
+                    { data: "branch", "autoWidth": true },
+                    { data: "movemnetApprove", "autoWidth": true },
+                    {
+                        render: function (data, type, users) {
+                            return "<a href='/User/MovementAuthorityYes/" + users.id + "' class='btn btn-success btn-sm'>Yes</a> <a href='/User/MovementAuthorityNo/" + users.id + "' class='btn btn-danger btn-sm'>No</a>";
+                        }
+                    },
+                    { data: "assetApprove", "autoWidth": true },
+                    {
+                        render: function (data, type, users) {
+                            return "<a href='/User/AssetAuthorityYes/" + users.id + "' class='btn btn-success btn-sm'>Yes</a> <a href='/User/AssetAuthorityNo/" + users.id + "' class='btn btn-danger btn-sm'>No</a>";
+                        }
+                    },
+                    {
+                        render: function (data, type, users) {
+                            return "<a href='/User/BranchManagers/?delete=" + users.id + "' class='btn btn-danger btn-sm' onclick='return confirm(" + '"Are you sure you want to Remove?"' + ")'>Remove</a>";
+                        }
+                    }
+                ]
+
+            });
+        
+    </script>
+</body>
+</html>

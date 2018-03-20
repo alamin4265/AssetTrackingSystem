@@ -1,0 +1,230 @@
+﻿@using System.Web.UI.WebControls
+@using ATSystem.Models.Entity
+@model ATSystem.Models.Entity.Organization
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+    List<Organization> alist = ViewBag.olist;
+}
+
+
+    @using (Html.BeginForm("Create", "Organization", FormMethod.Post, new {id = "createform"}))
+    {
+        <div class="form-horizontal container">
+            <div class="row">
+                <br/>
+                <div class="col-md-8">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Create New Organization
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group col-md-12">
+                                
+                                <br/>
+                                <div class="col-md-4">
+                                    @Html.LabelFor(c => c.Name, new {@class = "control-label"})
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(c => c.Name, new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(c => c.Name, "", new {style = "font-size:12px", @class = "text-danger" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(c => c.ShortName, new {@class = "control-label"})
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(c => c.ShortName, new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(c => c.ShortName, "", new {style = "font-size:12px", @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(c => c.Code, new {@class = "control-label"})
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(c => c.Code, new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(c => c.Code, "", new {style = "font-size:12px", @class = "text-danger" })
+                                    <p class="text-danger" style="font-size: 12px">@ViewData["exist"]</p>
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(c => c.Location, new {@class = "control-label"})
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(c => c.Location, new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(c => c.Location, "", new {style = "font-size:12px", @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-9">
+                                    @if ((string) ViewData["success"] == "Save Successfully")
+                                    {
+                                        <label class="alert alert-success pull-right" style="padding: 0px 70px; border: 3px solid transparent">@ViewData["success"]</label>
+                                    }
+
+                                </div>
+                                <div class="col-md-3 btn-group">
+                                    <input type="submit" value="Create" class="btn btn-success pull-right"/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-4">
+                    @if (alist.Count != 0)
+                    {
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                Last 5 Added Organizations
+                            </div>
+                            <div class="panel-body">
+
+                                <table class="table table-striped table-responsive table-bordered">
+                                    <thead class="head">
+                                    <tr>
+                                        <th>Organization Name</th>
+                                        <th>Short Name</th>
+                                        <th>Code</th>
+                                    </tr>
+                                    </thead>
+                                    @foreach (var list in alist)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @list.Name
+                                            </td>
+                                            <td>
+                                                @list.ShortName
+                                            </td>
+                                            <td>
+                                                @list.Code
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                                @Html.ActionLink("Back To List", "OrganizationList")    
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+
+        @*<h3>Create</h3>
+        <hr style="border: 1px solid brown" />
+        <div class="row">
+            <div class="col-md-8">
+                <label> </label>
+                <div class="form-group col-md-12">
+                    <h4 align="center"><b>Create New Organization</b></h4>
+                    <br />
+                    <div class="col-md-4">
+                        @Html.LabelFor(c => c.Name, new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.Name, "", new { style = "color:red;font-size:12px" })
+
+
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <div class="col-md-4">
+                        @Html.LabelFor(c => c.ShortName, new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(c => c.ShortName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.ShortName, "", new { style = "color:red;font-size:12px" })
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <div class="col-md-4">
+                        @Html.LabelFor(c => c.Code, new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(c => c.Code, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.Code, "", new { style = "color:red;font-size:12px" })
+                        <p class="text-danger" style="font-size: 12px">@ViewData["exist"]</p>
+
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <div class="col-md-4">
+                        @Html.LabelFor(c => c.Location, new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(c => c.Location, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.Location, "", new { style = "color:red;font-size:12px" })
+
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <div class="col-md-9">
+                        @if ((string)ViewData["success"] == "Save Successfully")
+                        {
+                            <label class="alert alert-success pull-right" style="padding: 0px 70px; border: 3px solid transparent">@ViewData["success"]</label>
+                        }
+
+                    </div>
+                    <div class="col-md-3 btn-group">
+                        <input type="submit" value="Create" class="btn btn-success pull-right" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                @if (alist.Count != 0)
+                {
+                    <h4 align="center"><b>Last 5 Added Organizations</b></h4>
+                    <table class="table table-striped table-responsive table-bordered">
+                        <thead class="head">
+                            <tr>
+                                <th>Organization Name</th>
+                                <th>Short Name</th>
+                                <th>Code</th>
+                            </tr>
+                        </thead>
+                        @foreach (var list in alist)
+                        {
+                            <tr>
+                                <td>
+                                    @list.Name
+                                </td>
+                                <td>
+                                    @list.ShortName
+                                </td>
+                                <td>
+                                    @list.Code
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                        @Html.ActionLink("Back To List", "OrganizationList")
+                }
+            </div>
+
+        </div>
+    }
+</div>*@
+
+@section CreateJS{
+
+
+}

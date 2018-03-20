@@ -1,0 +1,65 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AT System</title>
+    <link href="~/Content/Mine/HeaderStyle.css" rel="stylesheet" />
+    <link href="~/Content/Mine/Middle.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @RenderSection("OrganizationCSS",false)
+    @RenderSection("BranchlistCSS", false)
+    @RenderSection("GeneralCategoryCSS", false)
+    @RenderSection("AssetCSS", false)
+    @RenderSection("AssetRegistrationCreateCSS", false)
+    @RenderSection("MovementEntryCSS", false)
+    @RenderSection("MovementListCSS", false)
+    @RenderSection("Animation", false)
+    <style>
+        .input-validation-error {
+            border-color: firebrick;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div style="margin-bottom: 80px">
+        @Html.Partial("~/Views/Shared/Header.cshtml")
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+    <div>
+        @Html.Partial("~/Views/Shared/Footer.cshtml")
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+    @RenderSection("HomeChart",false)
+
+
+@RenderSection("AssetLocationCreateJS", false)
+@RenderSection("BrandCreateJS", false)
+@RenderSection("ProductCategoryCreateJS", false)
+@RenderSection("GeneralCategoryJS", false)
+@RenderSection("AssetJS", false)
+@RenderSection("OrganizationJS", false)
+@RenderSection("BranchlistJS", false)
+@RenderSection("CreateJS", false)
+@RenderSection("AssetScriptJS", false)
+@RenderSection("AssetRegistrationCreateJSS", false)
+@RenderSection("MovementEntryJS", false)
+@RenderSection("MovementListJS", false)
+@RenderSection("RegistrationJS", false)
+
+</body>
+
+</html>

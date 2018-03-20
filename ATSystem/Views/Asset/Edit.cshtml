@@ -1,0 +1,226 @@
+﻿@model ATSystem.Models.Entity.Asset
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "Asset", FormMethod.Post, new { id = "createform" }))
+{
+    <div class="form-horizontal">
+        <div class="container">
+            <br />
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Create New Asset
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert alert-danger alert-dismissible fade in" role="alert" id="errorMsgForParts" style="display: none">
+                        <strong>Sorry! </strong> This Parts Item Code Already Exist
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            @Html.Label("General Category", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("GeneralCategoryId", new SelectList(ViewBag.orglist, "Id", "Name"), "Select...", new { @class = "form-control", Required = "required", title = "General Category Required" })
+                                @Html.ValidationMessage("GeneralCategoryId", new { style = "color:red;font-size:12px" })
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.Label("Category", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("CategoryId", new SelectList(new SelectListItem[] { new SelectListItem() { Value = "", Text = "Select..." } }, "Value", "Text"), new { @class = "form-control", Required = "required", title = "Category Required" })
+                                @Html.ValidationMessage("CategoryId", "", new { style = "color:red;font-size:12px" })
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.Label("Sub Category / Brand", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(c => c.BrandId, new SelectList(new SelectListItem[] { new SelectListItem() { Value = "", Text = "Select..." } }, "Value", "Text"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.BrandId, "", new { style = "color:red;font-size:12px" })
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.Code, "Code", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.SerialNo, "Serial No", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.SerialNo, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SerialNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.Name, "Name", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.Price, null, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, "Description", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    @Html.TextAreaFor(model => model.Description, new { cols = 100, rows = 3, @class = "form-control", @style = "border-radius: 8px", PlaceHolder = "Description" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="col-md-12">
+                        <div align="left" class="col-md-6">
+                            @if ((string)ViewData["success"] == "Save Successfully")
+                            {
+                                <label class="alert alert-success pull-right" style="padding: 0px 70px; border: 3px solid transparent">@ViewData["success"]</label>
+                            }
+                        </div>
+                        <div class="form-actions col-md-6" align="right">
+                            <input type="submit" value="Update" class="btn btn-success" />
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section AssetScriptJS{
+    @*<script src="~/Scripts/Mine/AssetScript.js"></script>*@
+
+    <script type="text/javascript">
+        
+$(document).ready(function () {
+    var pathname = window.location.pathname.split("/");
+    var filename = pathname[pathname.length - 1];
+        //alert(filename);
+        var json = {
+            id: filename
+        };
+        $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("GetSelectedAllCategorybyid", "Asset")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    
+                    //$('#GeneralCategoryId').empty();
+                    $('#CategoryId').empty();
+                    $('#BrandId').empty();
+                    
+                    $.each(data, function (key, value) {
+
+
+                        //$('#GeneralCategoryId').val(value.generalCategoryId);
+                        //$("#GeneralCategoryId option:selected").text(value.GeneralCategoryName);
+                        //$("#GeneralCategoryId option:selected").remove();
+
+                        $('#GeneralCategoryId').empty();
+                        var generalcategoryoption = "<option value='" + value.generalCategoryId + "'>" + value.GeneralCategoryName + "</option>";
+                        $('#GeneralCategoryId').append(generalcategoryoption);
+
+
+                        //$('#CategoryId').val(value.CategoryId);
+                        //$("#CategoryId option:selected").text(value.CategoryName);
+                        //$("#CategoryId option:selected").remove();
+
+                        var categoryoption = "<option value='" + value.CategoryId + "'>" + value.CategoryName + "</option>";
+                        $('#CategoryId').append(categoryoption);
+
+                        var brandoption = "<option value='" + value.BrandId + "'>" + value.BrandName + "</option>";
+                        $('#BrandId').append(brandoption);
+
+                        //$('#BrandId').val(value.BrandId);
+                        //$("#BrandId option:selected").text(value.BrandName);
+                        //$("#BrandId option:selected").remove();
+                        
+
+                    });
+
+                },
+                
+            });
+
+
+                });
+       
+
+        $("#GeneralCategoryId").change(function () {
+
+            //load relevant branches of organization
+            var generalcategoryId = $("#GeneralCategoryId").val();
+            var json = {
+                generalCategoryId: generalcategoryId
+            };
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("GetCategoriesByGeneralCategoryId", "Category")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $('#CategoryId').empty();
+                    var blankOption = "<option value=''> Select...</option>";
+
+                    $('#CategoryId').append(blankOption);
+                    $.each(data, function (key, value) {
+
+                        var option = "<option value='" + value.Id + "'>" + value.Name + "</option>";
+                        $('#CategoryId').append(option);
+
+                    });
+
+                },
+                error: function(data) {
+                }
+            });
+        });
+
+        $("#CategoryId").change(function() {
+            //load relevant branches of organization
+            var categoryId = $("#CategoryId").val();
+            var json = {
+                categoryId: categoryId
+            };
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("GetBrandssByCategoryId", "Brand")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $('#BrandId').empty();
+                    var blankOption = "<option value=''> Select...</option>";
+
+                    $('#BrandId').append(blankOption);
+                    $.each(data, function (key, value) {
+
+                        var option = "<option value='" + value.Id + "'>" + value.Name + "</option>";
+                        $('#BrandId').append(option);
+                    });
+                },
+                error: function(data) {
+                }
+            });
+        });
+
+
+
+    </script>
+}

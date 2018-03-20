@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewBag.Title = "AssetList";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+@section AssetCSS{
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+}
+
+<div class="form-horizontal container">
+    <div class="row">
+        <br />
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    All Resources
+                </div>
+                <div class="panel-body">
+                    @if (@Session["Designation"].ToString() == "Manager")
+                    {
+                        <table id="assetm" class="table table-striped table-responsive table-bordered dataTable" style="width: 100%">
+                            <thead class="head">
+                                <tr>
+                                    <th>Serial No</th>
+                                    <th>Name</th>
+                                    <th>Code</th>
+                                    <th>Price</th>
+                                    <th>Genera Category</th>
+                                    <th>Category</th>
+                                    <th>Brand/Sub-Category</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+
+                    }
+                    else if (@Session["Designation"].ToString() == "Admin")
+                    {
+                        <table id = "assetad" class="table table-striped table-responsive table-bordered dataTable" style="width: 100%">
+                        <thead class="head">
+                            <tr>
+                                <th>Serial No</th>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>Price</th>
+                                <th>Genera Category</th>
+                                <th>Category</th>
+                                <th>Brand/Sub-Category</th>
+                                <th>Description</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        </table>
+                    }                    
+                   else
+                    {
+                    <table id="asset" class="table table-striped table-responsive table-bordered dataTable" style="width: 100%">
+                        <thead class="head">
+                            <tr>
+                                <th>Serial No</th>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>Price</th>
+                                <th>Genera Category</th>
+                                <th>Category</th>
+                                <th>Brand/Sub-Category</th>
+                                <th>Description</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section AssetJS{
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#asset").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/Asset/GetAllAsset",
+                    type: "POST",
+                    dataType: "JSON"
+                },
+                //serverSide: "true",
+                processing: "true",
+                columns: [
+                    { data: "SerialNo", "name": "SerialNo", "autoWidth": true },
+                    { data: "Name", "name": "Name", "autoWidth": true },
+                    { data: "Code", "name": "Code", "autoWidth": true },
+                    { data: "Price", "name": "Price", "autoWidth": true },
+                    { data: "GeneralCategoryName", "name": "GeneralCategoryName", "autoWidth": true },
+                    { data: "CategoryName", "name": "CategoryName", "autoWidth": true },
+                    { data: "BrandName", "name": "BrandName", "autoWidth": true },
+                    { data: "Description", "name": "Description", "autoWidth": true },
+
+                    {
+                        render: function (data, type, assets) {
+                            return "<a href='/Asset/Edit/" + assets.Id + "' class='btn btn-success btn-sm'>Edit</a>  <a href='/Asset/AssetList/?delete=" + assets.Id + "' class='btn btn-danger btn-sm' onclick='return confirm(" + '"Are you sure you want to delete?"' + ")'>Delete</a>  <a href='/Asset/Details/?id=" + assets.Id + "' class='btn btn-primary btn-sm' style='padding:5px 32px;margin-top:5px'>Details</a>";
+                        }
+                    }
+                ],
+                "order": [[0, "asc"]]
+
+            });
+            $("#assetm").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/Asset/GetAllAsset",
+                    type: "POST",
+                    dataType: "JSON"
+                },
+                //serverSide: "true",
+                processing: "true",
+                columns: [
+                    { data: "SerialNo", "name": "SerialNo", "autoWidth": true },
+                    { data: "Name", "name": "Name", "autoWidth": true },
+                    { data: "Code", "name": "Code", "autoWidth": true },
+                    { data: "Price", "name": "Price", "autoWidth": true },
+                    { data: "GeneralCategoryName", "name": "GeneralCategoryName", "autoWidth": true },
+                    { data: "CategoryName", "name": "CategoryName", "autoWidth": true },
+                    { data: "BrandName", "name": "BrandName", "autoWidth": true },
+                    { data: "Description", "name": "Description", "autoWidth": true },
+
+                    {
+                        render: function (data, type, assets) {
+                            return "<a href='/Asset/Edit/" + assets.Id + "' class='btn btn-success btn-sm'>Edit</a>   <a href='/Asset/Details/?id=" + assets.Id + "' class='btn btn-primary btn-sm'>Details</a>";
+                        }
+                    }
+                ],
+                "order": [[0, "asc"]]
+
+            });
+            $("#assetad").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/Asset/GetAllAsset",
+                    type: "POST",
+                    dataType: "JSON"
+                },
+                //serverSide: "true",
+                processing: "true",
+                columns: [
+                    { data: "SerialNo", "name": "SerialNo", "autoWidth": true },
+                    { data: "Name", "name": "Name", "autoWidth": true },
+                    { data: "Code", "name": "Code", "autoWidth": true },
+                    { data: "Price", "name": "Price", "autoWidth": true },
+                    { data: "GeneralCategoryName", "name": "GeneralCategoryName", "autoWidth": true },
+                    { data: "CategoryName", "name": "CategoryName", "autoWidth": true },
+                    { data: "BrandName", "name": "BrandName", "autoWidth": true },
+                    { data: "Description", "name": "Description", "autoWidth": true },
+
+                    {
+                        render: function (data, type, assets) {
+                            return "<a href='/Asset/Details/?id=" + assets.Id + "' class='btn btn-primary btn-sm' style='padding:5px 32px;margin-top:5px'>Details</a>";
+                        }
+                    }
+                ],
+                "order": [[0, "asc"]]
+
+            });
+        });
+    </script>
+
+}
+

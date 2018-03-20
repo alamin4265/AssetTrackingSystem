@@ -1,0 +1,72 @@
+﻿@model ATSystem.Models.Entity.GeneralCategory
+@{
+    ViewBag.Title = "GeneralCategoryList";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+@section GeneralCategoryCSS{
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+}
+
+<div class="form-horizontal container">
+    <div class="row">
+        <br />
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    All GeneralCategory
+                </div>
+                <div class="panel-body">
+                    <table id="generalcategory" class="table table-striped table-responsive table-bordered dataTable responsive" style="width: 100%">
+                        <thead class="head">
+                            <tr>
+                                <th>General Category Name</th>
+                                <th>Code</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section GeneralCategoryJS{
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+            $("#generalcategory").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/GeneralCategory/GetAllGeneralCategory",
+                    type: "GET",
+                    dataType: "JSON"
+                },
+                //serverSide: "true",
+                processing: "true",
+                columns: [
+                    { data: "Name", "name": "Name", "autoWidth": true },
+                    { data: "Code", "name": "Code", "autoWidth": true },
+                    {
+                        render: function (data, type, organization) {
+                            return "<a href='/GeneralCategory/Edit/" + organization.Id + "' class='btn btn-success btn-sm'>Edit</a>  <a href='/GeneralCategory/GeneralCategoryList/?delete=" + organization.Id + "' class='btn btn-danger btn-sm'>Delete</a>  <a href='/GeneralCategory/Details/?id=" + organization.Id + "' class='btn btn-primary btn-sm'>Details</a>  ";
+                        }
+                    }
+                ],
+                "order": [[0, "asc"]]
+
+            });
+        });
+    </script>
+
+
+}
+

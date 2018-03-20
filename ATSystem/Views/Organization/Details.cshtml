@@ -1,0 +1,85 @@
+﻿@using System.Web.UI.WebControls
+@using ATSystem.Models.Entity
+@model ATSystem.Models.Entity.Organization
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+    List<Branch> branches = ViewBag.branchlist;
+}
+
+<div class="form-horizontal container">
+    <div class="row">
+        <br />
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Organization
+                </div>
+                <div class="panel-body">
+
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>@Html.DisplayNameFor(c => c.Name) :</h5>
+                            </div>
+                            <div class="col-md-8">
+                                <h5>@Html.DisplayFor(c => c.Name)</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>@Html.DisplayNameFor(c => c.ShortName) :</h5>
+                            </div>
+                            <div class="col-md-8">
+                                <h5>@Html.DisplayFor(c => c.ShortName)</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>@Html.DisplayNameFor(c => c.Code) :</h5>
+                            </div>
+                            <div class="col-md-8">
+                                <h5>@Html.DisplayFor(c => c.Code)</h5>
+                            </div>
+                        </div><br />
+                        @Html.ActionLink("Back To List", "OrganizationList")
+                    </div>
+                    <div class="col-md-4">
+                        <h4><u>@Html.DisplayNameFor(c => c.Location)</u></h4>
+                        <h5>@Html.DisplayFor(c => c.Location)</h5>
+                    </div>
+                    <div class="col-md-12">
+                        @if (branches.Count > 0)
+                        {
+                            <h3 align="left">
+                                <b>Branches</b>
+                            </h3>
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-hover">
+                                    <tr>
+                                        <td>Branch Name</td>
+                                        <td>Short Name</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var list in branches)
+                                    {
+                                        <tr>
+                                            <td>@list.Name</td>
+                                            <td>@list.ShortName</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <h4 align="center" style="color: maroon">No Branch Added Yet For This Organization</h4>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

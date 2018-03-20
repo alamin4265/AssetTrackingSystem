@@ -1,0 +1,75 @@
+﻿@model ATSystem.Models.Entity.Branch
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+    
+}
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal container">
+        <div class="row">
+            <br />
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Edit
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-4">
+                                @Html.LabelFor(c => c.Name, new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.Name, "", new { style = "font-size:12px", @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="col-md-4">
+                                @Html.LabelFor(c => c.ShortName, new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(c => c.ShortName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.ShortName, "", new { style = "font-size:12px", @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="col-md-4">
+                                @Html.Label("Organization", new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(c => c.OrganizationId, new SelectList(ViewBag.orglist, "Id", "Name"), "Select...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.OrganizationId, "", new { style = "font-size:12px", @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="col-md-4">
+                                @Html.LabelFor(c => c.LocationName, new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(c => c.LocationName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.LocationName, "", new { style = "font-size:12px", @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="col-md-4">
+                                @Html.ActionLink("Back To List", "Branchlist")
+                            </div>
+                            <div class="col-md-4">
+                                @if ((string)ViewData["Update"] == "Update Successfully")
+                                {
+                                    <label class="alert alert-success pull-right" style="padding: 0px 70px; border: 3px solid transparent">@ViewData["Update"]</label>
+                                }
+                            </div>
+                            <div class="col-md-4">
+                                <input type="submit" value="Update" class="btn btn-success pull-right" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

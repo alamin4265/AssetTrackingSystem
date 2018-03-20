@@ -1,0 +1,236 @@
+﻿@using ATSystem.Models.Entity
+@using ATSystem.Models.ViewModel.Asset
+@model ATSystem.Models.ViewModel.Asset.AssetEntryVm
+@{
+    ViewBag.Title = "Entry";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+   IList <AssetEntryVm> assetlist= ViewBag.assetlist;
+}
+
+
+@using (Html.BeginForm("Entry", "Asset", FormMethod.Post, new { id = "createform" }))
+{
+    <div class="form-horizontal">
+        <div class="container">
+            <br />
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Create New Asset
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert alert-danger alert-dismissible fade in" role="alert" id="errorMsgForParts" style="display: none">
+                        <strong>Sorry! </strong> This Parts Item Code Already Exist
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.GeneralCategoryId, "General Category", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("GeneralCategoryId", new SelectList(ViewBag.orglist, "Id", "Name"), "Select...", new { @class = "form-control", Required = "required", title = "General Category Required" })
+                                @Html.ValidationMessage("GeneralCategoryId", new { style = "color:red;font-size:12px" })
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.CategoryId, "Category", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.DropDownList("CategoryId", new SelectList(new SelectListItem[] { new SelectListItem() { Value = "", Text = "Select..." } }, "Value", "Text"), new { @class = "form-control", Required = "required", title = "Category Required" })
+                                @Html.ValidationMessage("CategoryId", "", new { style = "color:red;font-size:12px" })
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.BrandId, "Sub Category / Brand", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(c => c.BrandId, new SelectList(new SelectListItem[] { new SelectListItem() { Value = "", Text = "Select..." } }, "Value", "Text"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.BrandId, "", new { style = "color:red;font-size:12px" })
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.Code, "Code", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                                <label style="color:red">@ViewBag.msg</label>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.SerialNo, "Serial No", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.SerialNo, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SerialNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.Name, "Name", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.Price, null, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, "Description", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    @Html.TextAreaFor(model => model.Description, new { cols = 100, rows = 3, @class = "form-control", @style = "border-radius: 8px", PlaceHolder = "Description" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="col-md-12">
+                        <div align="left" class="col-md-6">
+                            @if ((string)ViewData["success"] == "Save Successfully")
+                            {
+                                <label class="alert alert-success pull-right" style="padding: 0px 70px; border: 3px solid transparent">@ViewData["success"]</label>
+                            }
+                        </div>
+                        
+                        <div class="form-actions col-md-6" align="right">
+                            @Html.ActionLink("View All", "AssetList", "Asset", new { @class = "btn btn-primary" })
+                            <input type="submit" id="Submit" value="Save" class="btn btn-success" />
+                            @Html.ActionLink("Cancel", "Entry", "Assets", new { @class = "btn btn-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    if (assetlist.Count != 0)
+     {
+         <div class="form-horizontal container">
+             <div class="row">
+                 <br/>
+                 <div class="col-md-12">
+                     <div class="panel panel-primary">
+                         <div class="panel-heading">
+                             Last 5 Added Asset
+                         </div>
+                         <div class="panel-body">
+                             <table id="asset" class="table table-striped table-responsive table-bordered dataTable responsive" style="width: 100%">
+                                 <thead class="head">
+                                 <tr>
+                                     <th>Serial No</th>
+                                     <th>Name</th>
+                                     <th>Code</th>
+                                     <th>Price</th>
+                                     <th>General Category</th>
+                                     <th>Category</th>
+                                     <th>Brand/Sub-Category</th>
+                                     <th>Description</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody>
+
+                                 @foreach (var list in assetlist)
+                            {
+                                <tr>
+                                    <td>@list.SerialNo</td>
+                                    <td>@list.Name</td>
+                                    <td>@list.Code</td>
+                                    <td>@list.Price</td>
+                                    <td>@list.GeneralCategoryName</td>
+                                    <td>@list.CategoryName</td>
+                                    <td>@list.BrandName</td>
+                                    <td>@list.Description</td>
+                                    
+                                </tr>
+                            }
+                                 </tbody>
+                             </table>
+
+
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     }
+
+
+
+
+
+
+}
+@section AssetScriptJS{
+    @*<script src="~/Scripts/Mine/AssetScript.js"></script>*@
+
+    <script type="text/javascript">
+        $("#GeneralCategoryId").change(function () {
+
+            //load relevant branches of organization
+            var generalcategoryId = $("#GeneralCategoryId").val();
+            var json = {
+                generalCategoryId: generalcategoryId
+            };
+            $.ajax(
+                {
+                    type: "POST",
+                    url: '@Url.Action("GetCategoriesByGeneralCategoryId", "Category")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $('#CategoryId').empty();
+                    var blankOption = "<option value=''> Select...</option>";
+
+                    $('#CategoryId').append(blankOption);
+                    $.each(data, function (key, value) {
+
+                        var option = "<option value='" + value.Id + "'>" + value.Name + "</option>";
+                        $('#CategoryId').append(option);
+
+                    });
+
+                },
+                error: function(data) {
+                }
+        });
+        });
+
+        $("#CategoryId").change(function() {
+        //load relevant branches of organization
+            var categoryId = $("#CategoryId").val();
+        var json = {
+            categoryId: categoryId
+        };
+        $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("GetBrandssByCategoryId", "Brand")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $('#BrandId').empty();
+                    var blankOption = "<option value=''> Select...</option>";
+
+                    $('#BrandId').append(blankOption);
+                    $.each(data, function (key, value) {
+
+                        var option = "<option value='" + value.Id + "'>" + value.Name + "</option>";
+                        $('#BrandId').append(option);
+                    });
+                },
+                error: function(data) {
+                }
+            });
+        });
+
+
+
+       
+
+
+
+    </script>
+}

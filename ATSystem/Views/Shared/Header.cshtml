@@ -1,0 +1,179 @@
+﻿
+<header class="navbar navbar-inverse navbar-fixed-top  bs-docs-nav" role="banner">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div style="margin-right: 211px">
+                @if (Session["organizationName"] != null)
+                {
+                    <a href='@Url.Action("Home", "Home")' class="navbar-brand">@Session["organizationName"].ToString()</a>
+                }
+                else
+                {
+                    <a href="#" class="navbar-brand">Owner Of This System</a>
+                }
+
+            </div>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                @if (Session["designation"].ToString() == "Admin")
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Organization<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Create", "Create", "Organization")</li>
+                            <li>@Html.ActionLink("Organization List", "OrganizationList", "Organization")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Branch<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Branch List", "Branchlist", "Branch")</li>
+                        </ul>
+                    </li>
+                }
+
+                else
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Branch<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @if (Session["designation"].ToString() != "Manager")
+                            {
+                                <li>@Html.ActionLink("Create", "Create", "Branch")</li>
+                            }
+                            <li>@Html.ActionLink("Branch List", "Branchlist", "Branch")</li>
+                        </ul>
+                    </li>
+                }
+                @*<li>
+                        @Html.ActionLink("Asset Location", "Create", "AssetLocation")
+                    </li>*@
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resource<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("General Category", "Create", "GeneralCategory")</li>
+                        <li>@Html.ActionLink("Category", "Create", "Category")</li>
+                        <li>@Html.ActionLink("Sub Category / Brand", "Create", "Brand")</li>
+                        <hr />
+
+                        @if (Session["designation"].ToString() != "Admin")
+                        {
+                            <li>@Html.ActionLink("Resource_entry", "Entry", "Asset")</li>
+                        }
+                        <li>@Html.ActionLink("Resource-List", "AssetList", "Asset")</li>
+
+
+                        @if (Session["designation"].ToString() != "Admin")
+                        {
+                            <li>@Html.ActionLink("Register_resource", "Create", "AssetRegistration")</li>
+                        }
+                        <li>@Html.ActionLink("Registered Resources", "RegisteredAsset", "AssetRegistration")</li>
+
+                        <hr />
+                        @if (Session["designation"].ToString() != "Admin")
+                        {
+                            <li>@Html.ActionLink("Move_resources", "Entry", "Movement")</li>
+                        }
+                        <li>@Html.ActionLink("Resource Movement List", "MovementList", "Movement")</li>
+
+                        @if (@Session["Designation"].ToString() == "Organization Owner")
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", "MovementAuthority")">Authority</a>
+                            </li>
+                        }
+
+                        <li>@Html.ActionLink("Movement Status", "Status", "MovementAuthority")</li>
+                    </ul>
+                </li>
+
+
+
+                @*<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resource Category Setup<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("General Category", "Create", "GeneralCategory")</li>
+                            <li>@Html.ActionLink("Category", "Create", "Category")</li>
+                            <li>@Html.ActionLink("Sub Category / Brand", "Create", "Brand")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resource<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @if (Session["designation"].ToString() != "Admin")
+                            {
+                                <li>@Html.ActionLink("Entry", "Entry", "Asset")</li>
+                            }
+                            <li>@Html.ActionLink("Asset-List", "AssetList", "Asset")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resource Registration<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @if (Session["designation"].ToString() != "Admin")
+                            {
+                                <li>@Html.ActionLink("Entry", "Create", "AssetRegistration")</li>
+                            }
+                            <li>@Html.ActionLink("ViewAll", "RegisteredAsset", "AssetRegistration")</li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resource Movement<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @if (Session["designation"].ToString() != "Admin")
+                            {
+                                <li>@Html.ActionLink("Entry", "Entry", "Movement")</li>
+                            }
+                            <li>@Html.ActionLink("Movement List", "MovementList", "Movement")</li>
+
+                            @if (@Session["Designation"].ToString() == "Organization Owner")
+                            {
+                                <li>
+                                    <a href="@Url.Action("Index", "MovementAuthority")">Authority</a>
+                                </li>
+                            }
+
+                            <li>@Html.ActionLink("Status", "Status", "MovementAuthority")</li>
+                        </ul>
+                    </li>*@
+
+
+                @if (Session["designation"].ToString() == "Admin" || Session["designation"].ToString() == "Organization Owner")
+                {
+                    <li>@Html.ActionLink("Registration", "Registration", "User")</li>
+                }
+
+                @if (@Session["Designation"].ToString() == "Organization Owner")
+                {
+                    <li>
+                        <a href="@Url.Action("BranchManagers", "User")">Managers</a>
+                    </li>
+                }
+                @if (@Session["Designation"].ToString() == "Admin")
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("All Users", "AllUsers", "User")</li>
+                            <li>@Html.ActionLink("Login History", "LoginHistory", "User")</li>
+                        </ul>
+                    </li>
+                }
+                <li style="margin-left: 80px">@Html.ActionLink("Logout", "Logout", "Home")</li>
+
+                @Html.ActionLink(@Session["Username"].ToString(), "ProfileView", "User")
+                @*<li style="color: brown">@Session["username"].ToString()</li>*@
+
+            </ul>
+        </nav>
+    </div>
+</header>

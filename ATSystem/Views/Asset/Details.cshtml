@@ -1,0 +1,71 @@
+﻿@model ATSystem.Models.ViewModel.Asset.AssetDetailsVM
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+
+<div class="container" >
+    <div class="row" style="margin-top: 50px">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    Name:
+                </div>
+                <div class="col-md-8">
+                    @Model.Name
+                </div>
+            </div><br/>
+
+            <div class="row">
+                <div class="col-md-4">
+                    Code:
+                </div>
+                <div class="col-md-8">
+                    @Model.Code
+                </div>
+            </div><br />
+
+            <div class="row">
+                <div class="col-md-4">
+                    Price:
+                </div>
+                <div class="col-md-8">
+                    @Model.Price
+                </div>
+            </div><br />
+
+            <div class="row">
+                <div class="col-md-4">
+                    Serial No:
+                </div>
+                <div class="col-md-8">
+                    @Model.SerialNo
+                </div>
+            </div><br />
+
+            <div class="row">
+                <div class="col-md-4">
+                    BrandName:
+                </div>
+                <div class="col-md-8">
+                    @Model.BrandName
+                </div>
+            </div><br />
+            @Html.ActionLink("Back To List","AssetList")
+        </div>
+
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    Description:
+                </div>
+                <div class="col-md-8">
+                    @Model.Description
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

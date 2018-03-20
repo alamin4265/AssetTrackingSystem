@@ -1,0 +1,322 @@
+﻿@model ATSystem.Models.Entity.Contact
+@{
+    ViewBag.Title = "Home";
+    //Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Resource Distribution & Monitoring System</title>
+    <link rel="icon" href="~/HomeCustomDesign/image/asset4.jpg" />
+    <link href="~/HomeCustomDesign/css/style.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/HomeCustomDesign/css/default.css" rel="stylesheet" />
+    <link href="~/HomeCustomDesign/css/nivo-slider.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="~/HomeScript/js/jquery-1.9.0.min.js"></script>
+    <script src="~/HomeCustomDesign/js/jquery.nivo.slider.js"></script>
+    <script type="text/javascript">
+        $(window).load(function () {
+            $('#slider').nivoSlider();
+        });
+        $(document).ready(function () {
+            var showChar = 150;
+            var ellipsestext = "...";
+            var moretext = "more";
+            var lesstext = "less";
+            $('.more').each(function () {
+                var content = $(this).html();
+
+                if (content.length > showChar) {
+
+                    var c = content.substr(0, showChar);
+                    var h = content.substr(showChar - 1, content.length - showChar);
+
+                    var html = c + '<span class="moreelipses">' + ellipsestext + '</span>&nbsp;<span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+
+                    $(this).html(html);
+                }
+
+            });
+
+            $(".morelink").click(function () {
+                if ($(this).hasClass("less")) {
+                    $(this).removeClass("less");
+                    $(this).html(moretext);
+                } else {
+                    $(this).addClass("less");
+                    $(this).html(lesstext);
+                }
+                $(this).parent().prev().toggle();
+                $(this).prev().toggle();
+                return false;
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(window).load(function () {
+            $('#slider').nivoSlider();
+        });
+    </script>
+    <style>
+        a {
+            color: #0254EB
+        }
+
+            a:visited {
+                color: #0254EB
+            }
+
+        #header h2 {
+            color: white;
+            background-color: #00A1E6;
+            margin: 0px;
+            padding: 5px;
+        }
+
+        .comment {
+            margin: 10px;
+        }
+
+        a.morelink {
+            text-decoration: none;
+            outline: none;
+        }
+
+        .morecontent span {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="wrapper-box">
+            <div class="header">
+                <div class="header-top">
+                    <div class="logo">
+                        <h1>Resource Distribute & Monitoring System</h1>
+                    </div>
+                    <div class="icon">
+                        <ul class="follow_icon">
+                            <li><a href="#" style="opacity: 1;"><img src="~/HomeCustomDesign/image/facebook.png" alt=""></a></li>
+                            <li><a href="#" style="opacity: 1;"><img src="~/HomeCustomDesign/image/feed.png" alt=""></a></li>
+                            <li><a href="#" style="opacity: 1;"><img src="~/HomeCustomDesign/image/twitter.png" alt=""></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="header-bottom">
+                    <div id="cssmenu" style="width:100%">
+                        <ul>
+                            <li class="active"><a href="@Url.Action("HomePage","Home")"><span>Home</span></a></li>
+                            <li><a href="#"><span>Why AT?</span></a></li>
+                            <li><a href="@Url.Action("Instruction","Home")"><span>Instructions</span></a></li>
+                            <li><a href="@Url.Action("AboutUs","Home")"><span>AboutUs</span></a></li>
+                            <li style="float:right"><a href="@Url.Action("Login","User")"><span>Login</span></a></li>
+                            <li style="float:right"><a href="#contact"><span>Registration</span></a></li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="banner">
+                <div id="wrapper">
+                    <div class="slider-wrapper theme-default">
+                        <div id="slider" class="nivoSlider">
+                            <img src="~/HomeCustomDesign/image/banner2.jpg" alt="" />
+                            <img src="~/HomeCustomDesign/image/banner1.jpg" alt="" />
+                            <img src="~/HomeCustomDesign/image/banner3.png" alt="" />
+                            <img src="~/HomeCustomDesign/image/banner4.jpg" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="content-top">
+
+                    <div class="col_1_of_4 span_1_of_4">
+                        <div class="title-img">
+                            <div class="title"><img src="~/HomeCustomDesign/image/why.png" alt=""></div>
+                            <div class="title-desc"><p><label id="why_at">why at ??</label></p></div>
+                            <div class="clear"></div>
+                        </div>
+                        <h4 class=head>Use Resource Monitoring System</h4>
+
+                        <div class="comment more" style="text-align :justify">
+                            This system is for Resource Distribute and monitoring management and tracking for Company. Company has various branches in
+                            various place which it distributes various assets like Table, Chair, Desktop, Laptop etc. Various
+                            asset depend on the types of organization or company.Every Owner can easily traking or monitroing your asset of all branches safely. Each asset, asset movement
+                            history will keep record.If any manager will need to purches any asset, he will added to asset list by the permisson of the owner.You can also
+                            communicate with everyone of the company by this system easily.
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="col_1_of_4 span_1_of_4">
+                        <div class="title-img">
+                            <div class="title"><img src="~/HomeCustomDesign/image/login.png" alt=""></div>
+                            <div class="title-desc"><p>Login</p></div>
+                            <div class="clear"></div>
+                        </div>
+                        <h4 class=head>With username & password</h4>
+                        <p style="text-align :justify">
+                            After Registration of our system. You can enjoy our system's facilities.
+                            Just remember your Username & Password and entered our "Resource Monitoring System".
+                            <br>
+                            <br>
+                            Enter Your UserName & Password in Form.
+                        </p>
+                        <hr>
+                        <a href="@Url.Action("Login","User")" class="btn btn-primary">Login Form</a>
+
+                    </div>
+                    <div class="col_1_of_4 span_1_of_4">
+                        <div class="title-img">
+                            <div class="title"><img src="~/HomeCustomDesign/image/signup.jpg" alt=""></div>
+                            <div class="title-desc"><p>Registration</p></div>
+                            <div class="clear"></div>
+                        </div>
+                        <h4 class=head>With Appropriate Document</h4>
+                        <p style="text-align :justify">
+                            If you are registered with your Company legal documents, than you can easily monitoring or traking your asset.
+                            Than Maintain your asset & contact your managers at home in one system.
+                            <br>
+                            New Owner have to registered first to our system.
+                        </p>
+                        <hr>
+                        <a href="@Url.Action("Registration","User")" class="btn btn-primary">Registration Form</a>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="content-bottom">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="address-area">
+                            <h3 class="text-center">Organization Location</h3>
+                            <p class="text-center">At Google-Map</p>
+
+                            <div class="mapouter">
+                                <div class="gmap_canvas">
+                                    <iframe width="500" height="400" id="gmap_canvas" src="https://maps.google.com/maps?q=BUBT, ?????? ????, ????, ????????, &t=&z=19&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://wpicus.com"></a>
+                                </div>
+                            </div>
+                            <!--
+                                <script src="//map.googleapis.com/maps/api/js?key=AIzaSyAzFd_KZAuvarxTG3zAKY2ZV2b6xEnRkTw" async="" defer="defer" type="text/javascript"></script>
+                            -->
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-area">
+                            @using (Html.BeginForm("Contact", "Home"))
+                            {
+                                <br style="clear: both">
+                                <h3 style="margin-bottom: 25px; text-align: center;">Contact Form</h3>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(c => c.Name, new { @class = "form-control", @id = "name", @placeholder = "Name", @title = "Enter Your Name" })
+                                    @Html.ValidationMessageFor(c => c.Name, "", new { style = "color:red;font-size:12px" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(c => c.OrganizationName, new { @class = "form-control", @id = "orgname", @placeholder = "OrganizationName", title = "Enter Your Organization Name" })
+                                    @Html.ValidationMessageFor(c => c.OrganizationName, "", new { style = "color:red;font-size:12px" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(c => c.Email, new { @class = "form-control", @id = "email", @placeholder = "Email", @title = "You'll use this when log in and if you ever need to reset password" })
+                                    @Html.ValidationMessageFor(c => c.Email, "", new { style = "color:red;font-size:12px" })
+
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(c => c.MobileNo, new { @class = "form-control", @id = "mobile", @placeholder = "Mobile Number", @title = "Enter Your Mobile Number" })
+                                    @Html.ValidationMessageFor(c => c.MobileNo, "", new { style = "color:red;font-size:12px" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(c => c.Subject, new { @class = "form-control", @id = "subject", @placeholder = "Subject", title = "Enter Your Contact Subject" })
+                                    @Html.ValidationMessageFor(c => c.Subject, "", new { style = "color:red;font-size:12px" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextAreaFor(c => c.Message, new { @class = "form-control", @id = "message", @placeholder = "Organization Details...!", @maxlength = "140", @rows = "7", @title = "Organization Details" })
+                                    @Html.ValidationMessageFor(c => c.Message, "", new { style = "color:red;font-size:12px" })
+                                </div>
+                                if (ViewBag.Message == "Request Sent Successfully , You will be notified soon...")
+                                {
+                                    <label class="alert alert-success">@ViewBag.Message</label>
+                                }
+                                else if (ViewBag.Message == "Request Sent Failed")
+                                {
+                                    <label class="alert alert-danger">@ViewBag.Message</label>
+                                }
+                                else
+                                {
+
+                                }
+                                <button type="submit" id="submit" name="submit" class="btn btn-primary pull-right">Submit Form</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-top">
+                <div class="col_1_of_4 span_1_of_4">
+                    <h3>ABOUT COMPANY</h3>
+                    <p>
+                        A Company or organization has various <br>
+                        branches in various place.<br>
+                        <br>
+                        This system is for asset management<br>
+                        monitoring and tracking for Company.
+
+                    </p>
+                </div>
+                <div class="col_1_of_4 span_1_of_4 info">
+                    <h3>SOCIAL PRESENCE</h3>
+                    We love to be social,Catch Us On
+                    <a href="#"><h5>Facebook</h5></a>
+                    <a href="#"><h5>twitter</h5></a>
+                    <a href="#"><h5>linkedin</h5></a>
+                </div>
+
+
+                <div class="col_1_of_4 span_1_of_4 footer-lastgrid">
+                    <h3>CONTACT US</h3>
+                    <ul class="list3">
+                        <li>
+                            <img src="~/HomeCustomDesign/image/home.png" alt="" />
+                            <div class="extra-wrap">
+                                <p>Resource Monitoring System</p>
+                            </div>
+                        </li>
+                        <li>
+                            <img src="~/HomeCustomDesign/image/phone.png" alt="" />
+                            <div class="extra-wrap">
+                                <p><span>Telephone:</span>+1 800 258 2598</p>
+                                <p><span>FAX:</span>+1 800 589 2587</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="copy">
+                <p><span>Resource Monitoring System &#64; 2018</span></p>
+            </div>
+        </div>
+    </div>
+
+    @*<script src="~/Scripts/jquery-3.1.1.js"></script>*@
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script>
+        $(function () {
+            $('#name,#Organization,#email,#mobile,#subject,#message').tipsy({
+                trigger: 'focus',
+                gravity: 'w'
+            });
+        });
+    </script>
+</body>
+</html>    

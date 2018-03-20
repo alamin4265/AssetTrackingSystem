@@ -1,0 +1,109 @@
+﻿@model ATSystem.Models.Entity.User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ProfileView</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <style type="text/css">
+        .mn {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="header-top" align="center" style="margin-top: 50px">
+            @if (Session["organizationName"] != null)
+            {
+                <h3>@Session["organizationName"].ToString()</h3>
+            }
+            else
+            {
+                <h3>Owner Of This System</h3>
+            }
+
+        </div>
+        <div class="row" style="margin-top: 20px">
+            <div class="panel panel-primary">
+                <div class="panel-heading" style="height: 40px">
+                    <div class="col-md-6">@Html.ActionLink("Profile","ProfileView","",new{@style="color:white"})</div>
+                    <div class="col-md-6">
+
+                        <a href='@Url.Action("Home", "Home")' style="color: white; float: right">Home</a>
+                        
+                         @if (@Session["username"].ToString() != "admin")
+                         {
+                            <a href="@Url.Action("Inbox","Message")" style="color:white; float:right; margin-right:15px">Message</a>
+                         }
+                        
+                        @if (@Session["MessageCount"] != null)
+                        {
+                            @Html.Label((string)@Session["MessageCount"], new { style = "float: right;border-radius: 50%;background: red;border: 0px solid;width: 19px;height: 21px;padding: 0px;color: #6A6A6A;text-align: center;" })
+                        }
+                        
+                    </div>
+                </div>
+
+                <div class="panel-body">
+
+                    @using (Html.BeginForm())
+                    {
+                        <div class="col-md-4" align="center">
+                            <div class="panel-default">
+                                <div class="panel-body">
+                                    @if (Model.Image == null)
+                                    {
+                                        <img src="~/Image/no-userimage.jpg" width="150px" height="200px" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Image/@Model.Image" width="150px" height="200px" />
+                                    }
+                                    <br />
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @using (Html.BeginForm())
+                    {
+                        <div class="col-md-8">
+                            <div class="panel-default">
+                                <div class="panel-body">
+                                    @Html.Label("Full Name :")
+                                    @Html.DisplayFor(c=>c.FullName)<br/>
+                                    
+                                    @Html.Label("Gender : ")
+                                    @Html.DisplayFor(m => m.Gender, @*new List<SelectListItem>() {new SelectListItem {Text = "Male", Value = "Male"}, new SelectListItem {Text = "Female", Value = "Female"}, new SelectListItem {Text = "Other", Value = "Other"}}*@new {@class = "", @style = "margin-bottom:5px"})<br/>
+                                    
+                                    @Html.Label("Email Address : ")
+                                    @Html.DisplayFor(m => m.Email, new {@placeholder = "Email", @class = "form-control mn"})<br/>
+
+                                    @Html.Label("Phone No : ")
+                                    @Html.DisplayFor(m => m.PhoneNo, new {@placeholder = "Phone No", @class = "form-control mn"})<br/>
+
+                                    @Html.ActionLink("Edit", "Profile", "", new {@class = "btn btn-success", @style = "float:right"})
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
+

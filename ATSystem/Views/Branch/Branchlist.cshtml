@@ -1,0 +1,148 @@
+﻿
+@{
+    ViewBag.Title = "Branchlist";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+
+@section BranchlistCSS{
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+}
+
+<div class="form-horizontal container">
+    <div class="row">
+        <br />
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    All Branches
+                </div>
+                <div class="panel-body">
+                    @if (@Session["Designation"].ToString() == "Manager")
+                    {
+                        <table id="branchm" class="table table-striped table-responsive table-bordered dataTable responsive" style="width: 100%">
+                            <thead class="head">
+                                <tr>
+                                    <th>Branch Name</th>
+                                    <th>Short Name</th>
+                                    <th>Connected Organization</th>
+                                    <th>Location</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    }
+                    else if (@Session["Designation"].ToString() == "Admin")
+                    {
+                        <table id="branchad" class="table table-striped table-responsive table-bordered dataTable responsive" style="width: 100%">
+                            <thead class="head">
+                                <tr>
+                                    <th>Branch Name</th>
+                                    <th>Short Name</th>
+                                    <th>Connected Organization</th>
+                                    <th>Location</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <table id="branchs" class="table table-striped table-responsive table-bordered dataTable responsive" style="width: 100%">
+                            <thead class="head">
+                                <tr>
+                                    <th>Branch Name</th>
+                                    <th>Short Name</th>
+                                    <th>Connected Organization</th>
+                                    <th>Location</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section BranchlistJS{
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+            $("#branchm").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/Branch/GetAllBranches",
+                    type: "Get",
+                    dataType: "JSON"
+                },
+                //serverSide: "true",
+                processing: "true",
+                columns: [
+                    { data: "Name", "name": "Name", "autoWidth": true },
+                    { data: "ShortName", "name": "ShortName", "autoWidth": true },
+                    { data: "Organization", "name": "Organization", "autoWidth": true },
+                    { data: "LocationName", "name": "LocationName", "autoWidth": true },
+                    {
+                        render: function (data, type, branches) {
+                            return "<a href='/Branch/Edit/" + branches.Id + "' class='btn btn-success btn-sm'>Edit</a> ";
+                        }
+                    }
+                ],
+                "order": [[0, "asc"]]
+
+            });
+            $("#branchad").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/Branch/GetAllBranches",
+                    type: "Get",
+                    dataType: "JSON"
+                },
+                //serverSide: "true",
+                processing: "true",
+                columns: [
+                    { data: "Name", "name": "Name", "autoWidth": true },
+                    { data: "ShortName", "name": "ShortName", "autoWidth": true },
+                    { data: "Organization", "name": "Organization", "autoWidth": true },
+                    { data: "LocationName", "name": "LocationName", "autoWidth": true }
+                ],
+                "order": [[0, "asc"]]
+
+            });
+            $("#branchs").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/Branch/GetAllBranches",
+                    type: "Get",
+                    dataType: "JSON"
+                },
+                //serverSide: "true",
+                processing: "true",
+                columns: [
+                    { data: "Name", "name": "Name", "autoWidth": true },
+                    { data: "ShortName", "name": "ShortName", "autoWidth": true },
+                    { data: "Organization", "name": "Organization", "autoWidth": true },
+                    { data: "LocationName", "name": "LocationName", "autoWidth": true },
+                    {
+                        render: function (data, type, branches) {
+                            return "<a href='/Branch/Edit/" + branches.Id + "' class='btn btn-success btn-sm'>Edit</a>  <a href='/Branch/Branchlist/?delete=" + branches.Id + "' class='btn btn-danger btn-sm' onclick='return confirm(" + '"Are you sure you want to delete?"' + ")'>Delete</a>";
+                        }
+                    }
+                ],
+                "order": [[0, "asc"]]
+
+            });
+        });
+    </script>
+
+}

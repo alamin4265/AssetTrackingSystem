@@ -1,0 +1,324 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+
+@section Animation{
+    <style>
+        .animation {
+            width: 84%;
+            height: 200px;
+            background-color: #595959;
+            -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+            -webkit-animation-duration: 8s; /* Safari 4.0 - 8.0 */
+            animation-name: example;
+            animation-duration: 8s;
+            line-height: 200px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 75px;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            border-style: double;
+            border-color: red;
+            border-width: 5px;
+            align-content: center;
+        }
+
+        @@-webkit-keyframes example {
+            10% {
+                background-color: #595959;
+            }
+
+            20% {
+                background-color: #f2f2f2;
+            }
+
+            30% {
+                background-color: #666666;
+            }
+
+            40% {
+                background-color: #d9d9d9;
+            }
+
+            50% {
+                background-color: #737373;
+            }
+
+            60% {
+                background-color: #cccccc;
+            }
+
+            70% {
+                background-color: #4d4d4d;
+            }
+
+            80% {
+                background-color: #d9d9d9;
+            }
+
+            90% {
+                background-color: #666666;
+            }
+
+            100% {
+                background-color: #d9d9d9;
+            }
+        }
+
+        @@keyframes example {
+            10% {
+                background-color: #595959;
+            }
+
+            20% {
+                background-color: #f2f2f2;
+            }
+
+            30% {
+                background-color: #666666;
+            }
+
+            40% {
+                background-color: #d9d9d9;
+            }
+
+            50% {
+                background-color: #737373;
+            }
+
+            60% {
+                background-color: #cccccc;
+            }
+
+            70% {
+                background-color: #4d4d4d;
+            }
+
+            80% {
+                background-color: #d9d9d9;
+            }
+
+            90% {
+                background-color: #666666;
+            }
+
+            100% {
+                background-color: #d9d9d9;
+            }
+        }
+    </style>
+}
+@section BranchlistCSS{
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+}
+
+@if (Session["organizationName"] != null)
+{
+    <div class="animation" align="center" style="margin-top:52px;margin-left:108px;margin-bottom:-36px;">@Session["organizationName"].ToString()</div>
+}
+
+<div class="form-horizontal container">
+
+    <div class="row">
+        <br />
+        <br />
+        <div class="col-md-12" style="margin-top: 20px">
+            <div class="col-md-6">
+                <div id="chart_container" style="position: relative; margin: 5px">
+                    <canvas id="pie_chart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="chart_container" style="position: relative; margin: 5px">
+                    <canvas id="bar_chart"></canvas>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="col-md-12" style="margin-top: 20px">
+            <div class="panel panel-primary">
+                <div class="panel-heading" align="center" style="font-size: 20px">
+                    All Branches
+                </div>
+                <div class="panel-body">
+                    @if (@Session["Designation"].ToString() == "Manager")
+                {
+                    <table id="branch" class="table table-striped table-responsive table-bordered dataTable responsive" style="width: 100%">
+                        <thead class="head">
+                            <tr>
+                                <th>Branch Name</th>
+                                <th>Short Name</th>
+                                <th>Manager</th>
+                                <th>PhoneNo</th>
+                                <th>Location</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+            }
+            else
+            {
+                <table id="branchs" class="table table-striped table-responsive table-bordered dataTable responsive" style="width: 100%">
+                    <thead class="head">
+                        <tr>
+                            <th>Branch Name</th>
+                            <th>Short Name</th>
+                            <th>Manager</th>
+                            <th>PhoneNo</th>
+                            <th>Location</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+        }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section HomeChart
+{
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/Chart.min.js"></script>
+    <script>
+
+    var category = @Html.Raw(Json.Encode(ViewBag.category));
+    var quantity = @Html.Raw(Json.Encode(ViewBag.quantity));
+
+
+    var piectx = document.getElementById("pie_chart").getContext('2d');
+    var myPiChart = new Chart(piectx,
+        {
+            type: 'pie',
+            data: {
+                labels: ["A","B","C","D","E","F"],
+                datasets: [
+                    {
+                        label: '# of Votes',
+                        data: [15,2,8,12,5,4],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }
+                ]
+            }
+            });
+
+    var barctx = document.getElementById("bar_chart").getContext('2d');
+        var myBarChart = new Chart(barctx,
+        {
+            type: 'bar',
+            data: {
+                labels: ["A","B","C","D","E","F"],
+                datasets: [
+                    {
+                        label: '# of Votes',
+                        data: [15,2,8,12,5,4],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }
+                ]
+            }
+        });
+
+    </script>
+
+}
+@section BranchlistJS{
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+            $("#branch").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/JsonLoader/GetAllBranches",
+                    type: "Get",
+                    dataType: "JSON"
+                },
+                //serverSide: "true",
+                processing: "true",
+                columns: [
+                    { data: "BranchName", "name": "Name", "autoWidth": true },
+                    { data: "ShortName", "name": "ShortName", "autoWidth": true },
+                    { data: "Name", "name": "Name", "autoWidth": true },
+                    { data: "Phoneno", "name": "Phoneno", "autoWidth": true },
+                    { data: "LocationName", "name": "LocationName", "autoWidth": true },
+                    {
+                        render: function (data, type, branches) {
+                            return "<a href='/Branch/Edit/" + branches.Id + "' class='btn btn-success btn-sm'>Edit</a> ";
+                        }
+                    }
+                ],
+                "order": [[0, "asc"]]
+
+            });
+
+            $("#branchs").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/JsonLoader/GetAllBranches",
+                    type: "Get",
+                    dataType: "JSON"
+                },
+                //serverSide: "true",
+                processing: "true",
+                columns: [
+                    { data: "BranchName", "name": "BranchName", "autoWidth": true },
+                    { data: "ShortName", "name": "ShortName", "autoWidth": true },
+                    { data: "Name", "name": "Name", "autoWidth": true },
+                    { data: "Phoneno", "name": "Phoneno", "autoWidth": true },
+                    { data: "LocationName", "name": "LocationName", "autoWidth": true },
+                    {
+                        render: function (data, type, branches) {
+                            return "<a href='/Branch/Edit/" + branches.Id + "' class='btn btn-success btn-sm'>Edit</a>  <a href='/Branch/Branchlist/?delete=" + branches.Id + "' class='btn btn-danger btn-sm' onclick='return confirm(" + '"Are you sure you want to delete?"' + ")'>Delete</a>";
+                        }
+                    }
+                ],
+                "order": [[0, "asc"]]
+
+            });
+        });
+    </script>
+
+}

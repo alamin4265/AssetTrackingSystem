@@ -1,0 +1,51 @@
+﻿@model ATSystem.Models.Entity.Message
+@{
+    ViewBag.Title = "NewMessage";
+    Layout = "~/Views/Message/Message.cshtml";
+}
+
+<h3 align="center">NewMessage</h3>
+<div class="panel-body">
+    @using (Html.BeginForm("NewMessage", "Message"))
+    {
+
+        <div class="form-group">
+            <div class="col-md-3">
+                To
+            </div>
+            <div class="col-md-9">
+                @Html.DropDownListFor(c=>c.MessageTo,new SelectList(ViewBag.userlist,"Value","Text"),new{@class="form-control mb"})
+                @Html.ValidationMessageFor(c=>c.MessageTo,"",new{style= "color:red;font-size:12px" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                Title
+            </div>
+            <div class="col-md-9">
+                @Html.TextBoxFor(c => c.Title, new { placeholder = "Title", @class = "form-control mb" })
+                @Html.ValidationMessageFor(c => c.Title, "", new { style = "color:red;font-size:12px" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                Message
+            </div>
+            <div class="col-md-9">
+                @Html.TextAreaFor(c => c.Details, new { placeholder = "Message", @class = "form-control mb" })
+                @Html.ValidationMessageFor(c => c.Details, "", new { style = "color:red;font-size:12px" })
+            </div>
+        </div>
+        <br />
+        <div class="col-md-10">
+            @if ((string)ViewData["success"] == "Save Successfully")
+            {
+                <label class="alert alert-success pull-right" style="padding: 0px 70px; border: 3px solid transparent">@ViewData["success"]</label>
+            }
+            
+        </div>
+        <div class="col-md-2">
+            <input type="submit" class="btn btn-success btn-block" value="Send" style="float: right" />
+        </div>
+    }
+</div>

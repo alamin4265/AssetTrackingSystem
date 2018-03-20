@@ -1,0 +1,132 @@
+﻿@using ATSystem.Models.Entity
+@using ATSystem.Models.ViewModel.Branch
+@model ATSystem.Models.Entity.Branch
+@{
+    ViewBag.Title = "Branch";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+    
+}
+
+<div>
+    @using (Html.BeginForm("Create", "Branch", FormMethod.Post, new { id = "createform" }))
+    {
+
+        <div class="form-horizontal container">
+            <div class="row">
+                <br />
+                <div class="col-md-7">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Create New Branch
+                        </div>
+                        <div class="panel-body">
+                                <div class="form-group col-md-12">
+                                    <br />
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(c => c.OrganizationId, new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(c => c.OrganizationId, new SelectList(ViewBag.orglist, "Id", "Name"),new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.OrganizationId, "", new { style = "font-size:12px", @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(c => c.Name, new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.Name, "", new { style = "font-size:12px", @class = "text-danger" })
+                                    </div>
+                                </div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(c => c.ShortName, new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(c => c.ShortName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(c => c.ShortName, "", new { style = "font-size:12px", @class = "text-danger" })
+                                    <p class="text-danger" style="font-size: 12px">@ViewData["exist"]</p>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-4">
+                                    @Html.Label("Location", new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(c => c.LocationName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(c => c.LocationName, "", new { style = "color:red;font-size:12px" })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                    <div class="col-md-9">
+                                        @if ((string)ViewData["success"] == "Save Successfully")
+                                        {
+                                            <label class="alert alert-success pull-right" style="padding: 0px 70px; border: 3px solid transparent">@ViewData["success"]</label>
+                                        }
+
+                                    </div>
+                                    <div class="col-md-3 btn-group">
+                                        <input type="submit" value="Create" class="btn btn-success pull-right" />
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="col-md-5">
+                    @if (ViewBag.brlist != null)
+                    {
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                Last 5 Added Branches
+                            </div>
+                            <div class="panel-body">
+
+                                <table class="table table-striped table-responsive table-bordered">
+                                    <thead class="head">
+                                        <tr>
+                                            <th>Branch Name</th>
+                                            <th>Short Name</th>
+                                            <th>Coonnected Organizatioin</th>
+                                            <th>Location</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var list in ViewBag.brlist)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @list.Name
+                                            </td>
+                                            <td>
+                                                @list.ShortName
+                                            </td>
+                                            <td>
+                                                @list.Organization
+                                            </td>
+                                            <td>
+                                                @list.LocationName
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                                @Html.ActionLink("Back To List", "Branchlist")
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+  
+                    }
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+    }
+</div>

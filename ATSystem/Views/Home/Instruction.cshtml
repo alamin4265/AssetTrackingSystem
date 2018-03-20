@@ -1,0 +1,210 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="icon" href="~/HomeCustomDesign/image/asset4.jpg" />
+    <link href="~/HomeCustomDesign/css/style.css" rel="stylesheet" />
+    <link href="~/HomeCustomDesign/css/ins.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/HomeCustomDesign/css/default.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/HomeCustomDesign/css/nivo-slider.css" rel="stylesheet" type="text/css" media="all" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="~/HomeCustomDesign/js/jquery-1.9.0.min.js"></script>
+    <script src="~/HomeCustomDesign/js/jquery.nivo.slider.js"></script>
+    <script type="text/javascript">
+    $(window).load(function() {
+        $('#slider').nivoSlider();
+    });
+    </script>
+</head>
+<body>
+    <div class="wrap">
+        <div class="wrapper-box">
+            <div class="header">
+                <div class="header-top">
+                    <div class="logo">
+                        <h1>Asset Tracking System</h1>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+                <div class="header-bottom">
+                    <div id="cssmenu">
+                        <ul>
+                            <li><a href="@Url.Action("HomePage","Home")"><span>Home</span></a></li>
+                            <li><a href="#"><span>Why AT?</span></a></li>
+                            <li class="active"><a href="@Url.Action("Instruction","Home")"><span>Instructions</span></a></li>
+                            <li><a href="@Url.Action("AboutUs","Home")"><span>AboutUs</span></a></li>
+                        </ul>
+                    </div>
+                    <ul class="follow_icon">
+                        <li><a href="#" style="opacity: 1;"><img src="~/HomeCustomDesign/image/facebook.png" alt=""></a></li>
+                        <li><a href="#" style="opacity: 1;"><img src="~/HomeCustomDesign/image/feed.png" alt=""></a></li>
+                        <li><a href="#" style="opacity: 1;"><img src="~/HomeCustomDesign/image/twitter.png" alt=""></a></li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <article>
+
+
+                <input type="checkbox" id="read_more" role="button">
+                <label for="read_more" onclick=""><span>Read More</span><span>Hide</span></label>
+
+                <section class="ttext">
+                    <h3 style="text-align :center;font-size:26px;color:#711C3A;font-family:Monospace;background:#FAB666">INSTRUCTION MANUAL</h3>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true"> Organization Setup</i></h4>
+                    <p>In this setup page user will setup organization, by providing organization Code, Name, Short Name, Location, Code will be exactly three digit long, code and short name will be unique, and Name, Code, Short Name are mandatory field.</p>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true"> Organization Branch Setup</i></h4>
+                    <p>In this setup page user will setup Branch for organization, where user will select organization from dropdown and provide branch name and short name, where branch name and short name are mandatory. short name is unique.</p>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true"> Asset Location Setup</i></h4>
+                    <p>In this setup page Asset Location should be entered by providing organization, branch, location name and short name, where all fields are mandatory and short name is unique.</p>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true"> General Category Setup</i></h4>
+                    <p>
+                        In this configuration page user will setup general category which represents the general category of the asset user will
+                        further register by selecting its general category.<br>
+                        In this page user will select General Category Name and Code and as demonstrated in the picture code will be 2 digits long,
+                        required field and of course its unique, also name would be unique.
+                    </p>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true"> Category Setup</i></h4>
+                    <p>
+                        In this configuration page user will setup their category which will be used to identify assets category.<br>
+                        In this page user will select General Category from dropdown which is mandatory, Name(mandatory), Code(mandatory) and
+                        description of category.
+                    </p>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true"> Sub-Category/ Brand Setup</i></h4>
+                    <p>
+                        In this page user will select General Category and Category from dropdown and then Sub Category/Brand Name, Code and
+                        description.<br>
+                        General Category Selection, Name and Code inputs are mandatory.
+                    </p>
+                </section>
+
+
+
+                <section>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true"> Product Category/Model Setup</i></h4>
+                    <p>
+                        In this page product Category or Model is configured by user thus for any kind of asset its product category or brand can be
+                        recognized.
+                    </p>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true"> User Setup</i></h4>
+                    <p>This page is for user registration, providing user name, full name, organization, designation.</p>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true">  Role Setup</i></h4>
+                    <p>This page is for Role setup. Where role name will be provided.</p>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true"> User wise Role Setup</i></h4>
+                    <p>
+                        In this page user and its role will be assigned. if the user already assigned particular roles the roles will be selected and
+                        roles can be updated further.
+                    </p>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true"> Role permission for Menu Setup</i></h4>
+                    <p>
+                        Menu can be setup by selecting parent menu.<br>
+                        Role wise menu can be assigned, here all menu information will be shown and role wise menu can be set, while user will login
+                        in the system, unique menu will be generated by set permission (as a user can have multiple roles, so menu can be overlapped,
+                        the case should be considered).
+                    </p>
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true">  Asset Purchase Entry</i></h4>
+                    <p>
+                        User wants to keep record of purchase history of assets, so that user wants to enter purchase record of assets. <br><br>
+
+                        In this page user will input, purchase date, vendor information etc. <br>
+                        For asset, user will select asset general category, category, sub-category, model, warranty period(if any),  price,
+                        qty(default 1), serial no(optional), after that user will click on add button to add assets, if qty is more than 1 and serial
+                        no is provided then a pop-up screen will appear to enter the serial no of all assets. then asset information will be added to
+                        the list.
+                    </p>
+
+                    Finally, on save action, the information will be saved as a purchase record, further user will be able to see this record by purchase report (date range wise). assets' status will be [unregistered] as the asset id is not generated for purchased item yet.
+
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true">  Asset Registration</i></h4>
+                    <p>
+                        In this page user will register [unregistered] assets by searching them and selecting them. by asset category asset ID will
+                        be generated. <br><br>
+
+                        In this page asset will be set with its location while generating its ID.<br><br>
+
+                        Asset ID format would be [GeneralCategoryCode][CategoryCode][6 digit numeric]
+                        example, CEMON000001 - [Computer Equipments][Monitor][000001]
+                    </p>
+
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true">  Asset Movement Entry</i></h4>
+                    <p>
+                        Asset can be moved from one location to another, here user will select destination and search and select for assets, and
+                        confirm movement of assets from one location to another, then status of asset would be 'on movement from [source] to
+                        [destination]'<br><br>
+
+                        After movement entry, movement challan will be generated and user will be able to search for movement entry for his branches
+                        moved assets status.
+                    </p>
+
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true">  Asset Movement Receive Entry</i></h4>
+                    <p>
+                        Asset must be received to be part of the location, until then status of the asset would be on movement, after receiving of
+                        the asset the asset would be for the location and status would be 'on [location name]'
+                    </p>
+
+                    <h4><i class="fa fa-arrow-right" aria-hidden="true"> Asset Movement Cancel</i></h4>
+                    <p>Asset movement can be cancelled before receiving to a location. </p>
+
+                    <h3>Reporting Module</h3>
+                            <h4><i class="fa fa-arrow-right" aria-hidden="true">  Asset List Report</i></h4>
+                            <h4><i class="fa fa-arrow-right" aria-hidden="true">  Location wise Asset Report</i></h4>
+                            <h4><i class="fa fa-arrow-right" aria-hidden="true">  Asset  Tracking History</i></h4>
+                            <h4><i class="fa fa-arrow-right" aria-hidden="true">  Warranty Tracking Report</i></h4>
+                </section>
+
+            </article>
+
+        </div>
+        <div class="footer">
+            <div class="footer-top">
+                <div class="col_1_of_4 span_1_of_4">
+                    <h3>ABOUT COMPANY</h3>
+                    <p>
+                        A Company or organization has various <br>
+                        branches in various place.<br>
+                        <br>
+                        This system is for asset management<br>
+                        monitoring and tracking for Company.
+
+                    </p>
+                </div>
+                <div class="col_1_of_4 span_1_of_4 info">
+                    <h3>SOCIAL PRESENCE</h3>
+                    We love to be social,Catch Us On
+                    <a href="#"><h5>Facebook</h5></a>
+                    <a href="#"><h5>twitter</h5></a>
+                    <a href="#"><h5>linkedin</h5></a>
+                </div>
+
+
+                <div class="col_1_of_4 span_1_of_4 footer-lastgrid">
+                    <h3>CONTACT US</h3>
+                    <ul class="list3">
+                        <li>
+                            <img src="~/HomeCustomDesign/image/home.png" alt="" />
+                            <div class="extra-wrap">
+                                <p>Asset Tracking System</p>
+                            </div>
+                        </li>
+                        <li>
+                            <img src="~/HomeCustomDesign/image/phone.png" alt="" />
+                            <div class="extra-wrap">
+                                <p><span>Telephone:</span>+1 800 258 2598</p>
+                                <p><span>FAX:</span>+1 800 589 2587</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="copy">
+                <p><span>Asset Tracking System &#64; 1993</span></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>    

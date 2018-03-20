@@ -1,0 +1,175 @@
+﻿@using ATSystem.Models.ViewModel.Sub_Category_or_Brand
+@model ATSystem.Models.Entity.Brand
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+    List<BrandVM> alist = ViewBag.brandlist;
+}
+
+<div>
+    @using (Html.BeginForm("Create", "Brand", FormMethod.Post, new { id = "createform" }))
+    {
+
+        <div class="form-horizontal container">
+            <div class="row">
+                <br />
+                <div class="col-md-8">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Create Sub-Category / Brand
+                        </div>
+                        <div class="panel-body">
+                            
+                                <div class="form-group col-md-12">
+                                    <br />
+                                    <div class="col-md-4">
+                                        @Html.Label("General Category", new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("GeneralCategoryId", new SelectList(ViewBag.orglist, "Id", "Name"), "Select...", new { @class = "form-control", Required = "required", title = "General Category Required" })
+                                        @Html.ValidationMessage("GeneralCategoryId", new { style = "color:red;font-size:12px" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-4">
+                                        @Html.Label("Category", new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(c => c.CategoryId, new SelectList(new SelectListItem[] { new SelectListItem() { Value = "", Text = "Select..." } }, "Value", "Text"), new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.CategoryId, "", new { style = "color:red;font-size:12px" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(c => c.Name, new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.Name, "", new { style = "color:red;font-size:12px" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(c => c.Code, new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(c => c.Code, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.Code, "", new { style = "color:red;font-size:12px" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(c => c.Description, new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.TextAreaFor(c => c.Description, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.Description, "", new { style = "color:red;font-size:12px" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-9">
+                                        @if ((string)ViewData["success"] == "Save Successfully")
+                                        {
+                                            <label class="alert alert-success pull-right" style="padding: 0px 70px; border: 3px solid transparent">@ViewData["success"]</label>
+                                        }
+
+                                    </div>
+                                    <div class="col-md-3 btn-group">
+                                        <input type="submit" value="Create" class="btn btn-success pull-right" />
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    @if (alist.Count != 0)
+                        {
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                Last 5 Added Brands
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-responsive table-bordered">
+                                    <thead class="head">
+                                        <tr>
+                                            <th>Brand Name</th>
+                                            <th>Code</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var list in alist)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @list.Name
+                                            </td>
+                                            <td>
+                                                @list.Code
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+
+                                @*@Html.ActionLink("Back To List", "")*@
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+
+
+    }
+</div>
+
+
+
+@section BrandCreateJS{
+
+    <script type="text/javascript">
+
+        $("#GeneralCategoryId").change(function() {
+        //load relevant branches of organization
+            var generalcategoryId = $("#GeneralCategoryId").val();
+
+        var json = {
+            generalCategoryId: generalcategoryId
+        };
+
+        $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("GetCategoriesByGeneralCategoryId", "Category")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $('#CategoryId').empty();
+                    var blankOption = "<option value=''> Select...</option>";
+
+                    $('#CategoryId').append(blankOption);
+                    $.each(data, function (key, value) {
+
+                        var option = "<option value='" + value.Id + "'>" + value.Name + "</option>";
+                        $('#CategoryId').append(option);
+
+                    });
+
+                },
+                error: function(data) {
+
+                }
+        });
+
+
+    });
+
+
+    </script>
+
+}
+

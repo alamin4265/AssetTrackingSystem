@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Inbox</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <style type="text/css">
+        .mb {
+            margin-bottom: 5px;
+        }
+    </style>
+    @RenderSection("InboxMessageCSS", false)
+</head>
+
+<body>
+<div class="container">
+    <div class="panel panel-primary" style="margin-top: 50px;">
+        <div class="panel-heading" style="height: 40px">
+            <div class="col-md-6">Message</div>
+            <div class="col-md-6">
+                <a href='@Url.Action("Home", "Home")' style="color: white; float: right">Home</a>
+                <a href='@Url.Action("ProfileView", "User")' style="color: white; margin-right: 10px; float: right">Profile</a>
+                
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-3" style="margin-top: 50px">
+                @Html.ActionLink("New Message", "NewMessage","",new{@class="btn btn-success btn-block"})
+                @Html.ActionLink("Inbox", "Inbox", "", new { @class = "btn btn-success btn-block" })
+                @Html.ActionLink("Sent", "Sent", "", new { @class = "btn btn-success btn-block" })
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+@RenderSection("InboxMessageJS", false)
+</body>
+</html>

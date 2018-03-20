@@ -1,0 +1,76 @@
+﻿@using System.Web.Optimization
+@using ATSystem.Models.Entity
+@model ATSystem.Models.Entity.Organization
+@{
+    ViewBag.Title = "OrganizationList";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+
+@section OrganizationCSS{
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+}
+
+<div class="form-horizontal container">
+    <div class="row">
+        <br />
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    All Organizations
+                </div>
+                <div class="panel-body">
+                    <table id="organization" class="table table-striped table-responsive table-bordered dataTable" style="width: 100%">
+                        <thead class="head">
+                            <tr>
+                                <th>Organization Name</th>
+                                <th>Short Name</th>
+                                <th>Code</th>
+                                <th>Location</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section OrganizationJS{
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.js"></script>
+   
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+            $("#organization").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/Organization/AllOrganization",
+                    type: "GET",
+                    dataType: "JSON"
+                },
+                //serverSide: "true",
+                processing: "true",
+                columns: [
+                    { data: "Name", "autoWidth": true },
+                    { data: "ShortName", "autoWidth": true },
+                    { data: "Code","autoWidth": true },
+                    { data: "Location","autoWidth": true },
+                    {
+                        render: function (data, type, organization) {
+                            return "<a href='/Organization/Edit/" + organization.Id + "' class='btn btn-success btn-sm' >Edit</a>  <a href='/Organization/OrganizationList/?delete=" + organization.Id + "' class='btn btn-danger btn-sm' onclick='return confirm(" + '"Are you sure you want to delete?"' +")'>Delete</a>  <a href='/Organization/Details/?id=" + organization.Id + "' class='btn btn-primary btn-sm'>Details</a>  ";
+                        }
+                    }
+                ]
+
+            });
+        });
+    </script>
+}

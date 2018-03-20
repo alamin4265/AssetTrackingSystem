@@ -1,0 +1,155 @@
+﻿@using System.Data.Entity.Migrations.Sql
+@model ATSystem.Models.Entity.User
+@{
+    Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="~/Content/Mine/loging.css" rel="stylesheet" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="container">
+        @using (Html.BeginForm("Registration", "User"))
+        {
+            <div class="row" style="margin-top: 30px">
+                <div class="col-md-offset-3 col-md-6">
+                    <div class="form-group">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h2>Register New Account</h2>
+                            </div>
+                            <div class="panel-body">
+                                @if (Session["designation"].ToString() == "Admin")
+                                {
+                                    <div class="form-inline">
+                                        <center><label>Organization Owner</label></center><br />
+                                        @*@Html.RadioButtonFor(c => c.Designation, "Manager") Manager<br />*@
+
+                                    </div><br />
+                                }
+                                else if (Session["designation"].ToString() == "Organization Owner")
+                                {
+                                    <div class="form-inline">
+                                        <label style="text-align:center">Manager</label><br />
+
+                                    </div><br />
+                                }
+
+                                @Html.TextBoxFor(m => m.FullName, new { @placeholder = "Full Name", @class = "form-control mn" })
+                                @Html.ValidationMessageFor(c => c.FullName, "", new { style = "font-size:12px", @class = "text-danger" })
+
+                                @Html.DropDownListFor(m => m.Gender, new List<SelectListItem>() { new SelectListItem { Text = "Male", Value = "Male" }, new SelectListItem { Text = "Female", Value = "Female" }, new SelectListItem { Text = "Other", Value = "Other" } }, new { @class = "form-control", @style = "margin-bottom:5px" })
+
+                                @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email", @class = "form-control mn" })
+                                @Html.ValidationMessageFor(c => c.Email, "", new { style = "font-size:12px", @class = "text-danger" })
+
+                                @Html.TextBoxFor(m => m.UserName, new { @placeholder = "UserName", @class = "form-control mn" })
+                                @Html.ValidationMessageFor(c => c.UserName, "", new { style = "font-size:12px", @class = "text-danger" })
+
+                                @Html.PasswordFor(m => m.Password, new { @placeholder = "Password", @class = "form-control mn" })
+                                @Html.ValidationMessageFor(c => c.Password, "", new { style = "font-size:12px", @class = "text-danger" })
+
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Confirm Password", @class = "form-control mn" })
+                                @Html.ValidationMessageFor(c => c.ConfirmPassword, "", new { style = "font-size:12px", @class = "text-danger" })<br />
+
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @Html.LabelFor(m => m.OrganizationId)
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.DropDownListFor(c => c.OrganizationId, new SelectList(ViewBag.orglist, "Id", "Name"), "---Select---", new { @class = "form-control mn", @style = "float:right;align-content: center;min-width:180px" })
+                                        @Html.ValidationMessageFor(c => c.OrganizationId, "", new { style = "font-size:12px", @class = "text-danger" })<br />
+                                    </div>
+                                </div>
+                                @if (@Session["Designation"].ToString() == "Organization Owner")
+                                {
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.BranchId, "Branch")
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.DropDownListFor(c => c.BranchId, new SelectList(new SelectListItem[] { new SelectListItem() { Value = "", Text = "---Select---" } }, "Value", "Text"), new { @class = "form-control mn", @style = "float:right;align-content: center;min-width:180px" })
+                                            @Html.ValidationMessageFor(c => c.BranchId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                }
+
+
+                                @Html.TextBoxFor(m => m.PhoneNo, new { @placeholder = "PhoneNo", @class = "form-control mn" })
+                                @Html.ValidationMessageFor(c => c.PhoneNo, "", new { style = "font-size:12px", @class = "text-danger" })
+
+                                @if (@ViewBag.Message == "Registration Successfull")
+                                {
+                                    <div class="alert alert-success">
+                                        @ViewBag.Message
+                                    </div>
+                                }
+                                else if (@ViewBag.Message == "This UserName Has Already Taken")
+                                {
+                                    <div class="alert alert-warning">
+                                        @ViewBag.Message
+                                    </div>
+                                }
+                                else if (@ViewBag.Message == "Registration Failed")
+                                {
+                                    <div class="alert alert-warning">
+                                        @ViewBag.Message
+                                    </div>
+                                }
+                                else
+                                {
+
+                                }
+                                <input type="submit" class="submit btn btn-success form-control" value="Create Account">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @section RegistrationJS{
+        <script type="text/javascript">
+            $("#OrganizationId").change(function () {
+                var organizationId = $("#OrganizationId").val();
+                GetBranchByOrganizationId(organizationId);
+
+            });
+
+
+            function GetBranchByOrganizationId(organizationId) {
+                var json = { organizationId: organizationId };
+                $.ajax({
+                    type: "POST",
+                    url: "/JsonLoader/GetBranchByOrganizationId",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $('#BranchId').empty();
+                        var blankOption = "<option value=''> Select...</option>";
+
+                        $('#BranchId').append(blankOption);
+                        $.each(data,
+                            function (key, value) {
+                                $("#BranchId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+                            });
+
+
+                    }
+
+                });
+            }
+
+        </script>
+    }
+</body>
+</html>

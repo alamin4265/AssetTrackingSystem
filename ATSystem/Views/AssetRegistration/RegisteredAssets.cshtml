@@ -1,0 +1,147 @@
+﻿@using ATSystem.Models.ViewModel.AssetRegistration
+@model IEnumerable<ATSystem.Models.Entity.AssetRegistration>
+@{
+    ViewBag.Title = "RegisteredAsset";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @*@Html.AntiForgeryToken()*@
+    <div class="container">
+        <div class="form-horizontal">
+            <br />
+            <div class="panel panel-primary">
+                <div class="panel-heading">Registered Assets</div>
+                <div class="panel-body">
+                    <div align="left">
+                        @Html.ActionLink("Create", "Create", "AssetRegistrations", new { @class = "btn btn-success saveOrcancel" })
+                        @*@Html.ActionLink("Search", "", "AssetRegistrations", new { @class = "btn btn-info saveOrcancel" })*@
+                    </div>
+                    <br />
+                    <table class="table table-striped table-hover table-bordered">
+                        <tr style="background-color: skyblue; color: white" align="center">
+                            <th>SL.</th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Store Location</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                                
+                            </th>
+
+                            <th>Action</th>
+                        </tr>
+                        @{ var sl = 0;
+                        }
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr align="center">
+                                    <td>@(++sl)</td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RegistrationDate)
+                                    </td>
+                                    <td>
+                                        Organization > Branch
+                                          
+                                    </td>
+
+                                    <td>
+                                        @Html.ActionLink("Edit", "","", new { id = item.Id }) |
+                                        @Html.ActionLink("Details", "", new { id = item.Id }) |
+                                        @Html.ActionLink("Delete", "RegisteredAsset",new { id = item.Id })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <table class="table table-striped table-hover table-bordered">
+                                            <tr style=" color: white">
+                                                <th style="background-color: teal">SL.</th>
+                                                <th style="background-color: teal">
+                                                    Reg. No
+                                                </th>
+                                                <th style="background-color: teal">
+                                                    Code
+                                                </th>
+                                                <th style="background-color: teal">
+                                                    Name
+                                                </th>
+                                                <th style="background-color: teal">
+                                                    Serial No
+                                                </th>
+                                                <th style="background-color: teal">
+                                                    Organization
+                                                </th>
+                                                <th style="background-color: teal">
+                                                    Branch
+                                                </th>
+
+                                            </tr>
+                                            @{
+                                                var sl2 = 0;
+
+                                                if (Model != null)
+                                                {
+                                                    foreach (var data in item.AssetRegistrationDetailses)
+                                                    {
+                                                        <tr style="background-color: white; color: green;" align="center">
+                                                            <td>@(++sl2)</td>
+
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => data.RegistrationNo)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => data.Code)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modeItem => data.AssetId)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modeItem => data.SerialNo)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modeItem => data.OrganizationId)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modeItem => data.OrganizationId)
+                                                            </td>
+                                                        </tr>
+                                                    }
+
+                                                }
+                                            }
+                                        </table>
+
+                                    </td>
+
+                                </tr>
+
+
+                            }
+                        }
+
+
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+}
+
+
+

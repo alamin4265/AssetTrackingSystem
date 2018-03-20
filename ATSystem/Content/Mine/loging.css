@@ -1,0 +1,25 @@
+.panel .panel-default
+{
+	background-color:green;
+}
+.mn
+{
+	margin-bottom:5px;
+}
+.mnb
+{
+	margin-top:2px;
+}
+.submit
+{
+	margin-top:10px;
+	float:right;
+	border:thin solid blue;
+	border-radius:2px;
+	padding:5px;
+}
+#wgtmsr{
+ width:183px;   
+ padding:5px;
+ border-radius:3px;
+}

@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "RegisteredAsset";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+@section MovementListCSS{
+
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+}
+<div class="panel-body">
+    <h3 align="center">Registered Resource</h3>
+    <div class="col-md-7 col-md-offset-3">
+        <div class="col-md-5">
+            @if (Session["designation"].ToString() != "Admin")
+            {
+                @Html.DropDownList("orgid", new SelectList(ViewBag.branchlist, "Id", "Name"),"--- Select Branch ---", new { @class = "form-control" })
+            }
+            
+        </div>
+        <div class="col-md-2">
+            @using (Html.BeginForm("RegisteredAsset", "AssetRegistration"))
+            {
+                <input style="float: right" type="submit" id="all" value="Show All" class="btn btn-default" />
+            }
+        </div>
+    </div>
+   
+    <div class="col-md-12">
+        <table id="Movelist" class="table table-striped table-bordered table-hover" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Registration no</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Serial No</th>
+                    <th>Organization</th>
+                    <th>Branch</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section MovementListJS{
+
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $("#Movelist").dataTable().fnDestroy();
+            $("#Movelist").dataTable({
+                "dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/JsonLoader/GetAllAssetRegistrationListWithName",
+                    type: "GET",
+                    dataType: "JSON"
+                },
+                processing: "true",
+                columns: [
+                    { data: "registrationNo", "autoWidth": true },
+                    { data: "code", "autoWidth": true },
+                    { data: "asset", "autoWidth": true },
+                    { data: "serialNo", "autoWidth": true },
+                    { data: "organization", "autoWidth": true },
+                    { data: "branch", "autoWidth": true }
+                ]
+
+            });
+        
+        });
+
+
+
+        $("#orgid").change(function () {
+
+            var orgid = $("#orgid").val();
+
+            $("#Movelist").dataTable().fnDestroy();
+            $("#Movelist").dataTable({
+                "dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/JsonLoader/GetAllAssetRegistrationListWithName/" + orgid,
+                    type: "GET",
+                    dataType: "JSON"
+                },
+                processing: "true",
+                columns: [
+                    { data: "registrationNo", "autoWidth": true },
+                    { data: "code", "autoWidth": true },
+                    { data: "asset", "autoWidth": true },
+                    { data: "serialNo", "autoWidth": true },
+                    { data: "organization", "autoWidth": true },
+                    { data: "branch", "autoWidth": true }
+                ]
+
+            });
+            });
+
+    </script>
+
+}
+
+
+
+
+
+

@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "MovementList";
+    Layout = "~/Views/Shared/MainPage.cshtml";
+}
+
+
+
+
+
+@section MovementListCSS{
+
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+}
+<div class="panel-body">
+    <h3 align="center">Movement Authority</h3>
+
+    <div class="col-md-12">
+        <table id="Movelist" class="table table-striped table-bordered table-hover" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Asset</th>
+                    <th>Move From Organization</th>
+                    <th>Move From Branch</th>
+                    <th>Move To Organization</th>
+                    <th>Move To Branch</th>
+                    <th>Moved By</th>
+                    <th>Permision</th>
+                    <th>Movemnet Permistion</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section MovementListJS{
+
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+            $("#Movelist").dataTable({
+                //"dom": '<"pull-left"l><"pull-right"f>rt<"bottom text-center"p>',
+                ajax: {
+                    url: "/JsonLoader/GetAllMovementPermisionListWithName",
+                    type: "GET",
+                    dataType: "JSON"
+                },
+                processing: "true",
+                columns: [
+                    { data: "date", "autoWidth": true },
+                    { data: "asset", "autoWidth": true },
+                    { data: "fromOrg", "autoWidth": true },
+                    { data: "frombranch", "autoWidth": true },
+                    { data: "toorg", "autoWidth": true },
+                    { data: "tobranch", "autoWidth": true },
+                    { data: "moveby", "autoWidth": true },
+                    { data: "permision", "autoWidth": true },
+                    {
+                        render: function (data, type, asset) {
+                            return "<a href='/MovementAuthority/MovementAuthorityYes/" + asset.id + "' class='btn btn-success btn-sm'>Confirm</a> <a href='/MovementAuthority/MovementAuthorityNo/" + asset.id + "' class='btn btn-danger btn-sm'>Reject</a>";
+                        }
+                    }
+                ]
+
+            });
+        });
+    </script>
+
+}
+
+

@@ -1,0 +1,13 @@
+﻿.middle {
+    margin: 20px auto;
+    padding: 10px;
+  -webkit-border-radius: 8px/7px; 
+  -moz-border-radius: 8px/7px; 
+  border-radius: 8px/7px; 
+  background-color: mintcream; 
+  -webkit-box-shadow: 1px 2px 5px
+}
+    .head {
+        background: darkslategray;
+        color: white;
+    }
