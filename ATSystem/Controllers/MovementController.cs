@@ -26,7 +26,7 @@ namespace ATSystem.Controllers
         private IUserManager userManager;
         private IMovementPermisionManager movementPermisionManager;
 
-        public MovementController(IAssetManager _assetManager,UiLoader.UiLoader _loader, IBrandManager _brandManager, IOrganizationManager _organizationManager, IMovementManager _movementManager, IAssetRegistrationDetailsManager _assetdetailsmanager, IUserManager _userManager, IMovementPermisionManager _movementPermisionManager,IBranchManager _branchManager)
+        public MovementController(IAssetManager _assetManager, UiLoader.UiLoader _loader, IBrandManager _brandManager, IOrganizationManager _organizationManager, IMovementManager _movementManager, IAssetRegistrationDetailsManager _assetdetailsmanager, IUserManager _userManager, IMovementPermisionManager _movementPermisionManager, IBranchManager _branchManager)
         {
             assetManager = _assetManager;
             loader = _loader;
@@ -54,7 +54,7 @@ namespace ATSystem.Controllers
                 orgid = t.OrganizationId;
             }
             ViewBag.orglist = organizationManager.GetAll();
-            MovementEntryVM model=new MovementEntryVM()
+            MovementEntryVM model = new MovementEntryVM()
             {
                 OrganizationLookUp = loader.GetOrganizationByUserOrgIdSelectitems(orgid),
                 //AssetLookUp = loader.GetAssetSelectListItems()
@@ -63,13 +63,14 @@ namespace ATSystem.Controllers
 
             string format = "d";
             model.RegistrationDate = DateTime.Today.ToString(format);
-
+            ViewBag.CartList = Session["CartList"];
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Entry(MovementEntryVM movementVM)
+        public ActionResult Entry(MovementEntryVM movementM)
         {
+
             var username = Session["username"].ToString();
             int orgid = 0;
             var list = userManager.GetAll().Where(c => c.UserName == username);
@@ -78,8 +79,6 @@ namespace ATSystem.Controllers
                 orgid = t.OrganizationId;
             }
 
-
-            movementVM.MoveBy = Session["username"].ToString();
             ViewBag.orglist = organizationManager.GetAll();
             MovementEntryVM model = new MovementEntryVM()
             {
@@ -90,55 +89,139 @@ namespace ATSystem.Controllers
 
             string format = "d";
             model.RegistrationDate = DateTime.Today.ToString(format);
-
-            AssetRegistrationDetails details = assetdetailsmanager.GetIdAssetId(movementVM.AssetId);
-            int detailsId = details.Id;
-            details = assetdetailsmanager.GetById(detailsId);
-            details.OrganizationId = movementVM.OrganizationId;
-            details.BranchId = movementVM.OrganizationId;
-
-        var movement = Mapper.Map<Movement>(movementVM);
-
-            MovementPermision mvp=new MovementPermision();
-            mvp.Permision = false;
-        var movementPermision = Mapper.Map<MovementPermision>(movementVM);
-            bool isSaved;
-            if (Session["Designation"].ToString() == "Manager")
+            List<MovementEntryVM> aList = (List<MovementEntryVM>)Session["CartList"];
+            if (aList != null && aList.Any())
             {
-                isSaved = movementPermisionManager.Add(movementPermision);
-            }
-            else
-            {
-                isSaved = movementManager.Add(movement);
-            }
-
-            if (isSaved)
-            {
-                details.BranchId = movementVM.BranchId;
-                if (assetdetailsmanager.Update(details))
+                List<PdfView> pdfList = new List<PdfView>();
+                foreach (var mo in aList)
                 {
-                    ModelState.Clear();
-                    ViewBag.message = "Save Successfully";
+                    MovementEntryVM movementVM = new MovementEntryVM();
+                    movementVM = mo;
+
+                    movementVM.MoveBy = Session["username"].ToString();
+                    AssetRegistrationDetails details = assetdetailsmanager.GetIdAssetId(movementVM.AssetId);
+                    int detailsId = details.Id;
+                    details = assetdetailsmanager.GetById(detailsId);
+                    details.OrganizationId = movementVM.OrganizationId;
+                    details.BranchId = movementVM.OrganizationId;
+
+                    var movement = Mapper.Map<Movement>(movementVM);
+
+                    MovementPermision mvp = new MovementPermision();
+                    mvp.Permision = false;
+                    var movementPermision = Mapper.Map<MovementPermision>(movementVM);
+                    bool isSaved;
+                    if (Session["Designation"].ToString() == "Manager")
+                    {
+                        isSaved = movementPermisionManager.Add(movementPermision);
+                    }
+                    else
+                    {
+                        isSaved = movementManager.Add(movement);
+                    }
+
+
+
+
+                    if (isSaved)
+                    {
+                        details.BranchId = movementVM.BranchId;
+                        if (assetdetailsmanager.Update(details))
+                        {
+                            ModelState.Clear();
+                            ViewBag.message = "Save Successfully";
+
+
+
+                            PdfView aPdfView = new PdfView();
+
+                            aPdfView.OrganizationId = movement.OrganizationId;
+                            aPdfView.OrganizationName = movement.OrganizationName;
+                            aPdfView.AssetId = movement.AssetId;
+                            aPdfView.AssecCode = movementVM.Code;
+                            aPdfView.AssetSerialNo = movementVM.SerialNo;
+                            aPdfView.GeneralCategory = movementVM.GeneralCategoryName;
+                            aPdfView.Category = movementVM.CategoryNme;
+                            aPdfView.Brand = movementVM.BrandName;
+                            aPdfView.FromBranch = movement.BranchName;
+                            aPdfView.ToBranch = branchManager.GetById(movement.BranchId).Name;
+                            aPdfView.MovedBy = movement.MoveBy;
+                            aPdfView.Date = movement.RegistrationDate;
+
+                            pdfList.Add(aPdfView);
+                        }
+                    }
+                }
+
+                GeneratePdf(pdfList, DateTime.Now.Date.ToString(), Session["username"].ToString());
+                Session["Printed"] = "YES";
+            }
+
+            return RedirectToAction("Entry");
+        }
+
+        public ActionResult RePrint()
+        {
+            List<MovementEntryVM> aList = (List<MovementEntryVM>)Session["CartList"];
+            if (aList != null && aList.Any())
+            {
+                List<PdfView> pdfList = new List<PdfView>();
+
+                foreach (var mo in aList)
+                {
 
                     PdfView aPdfView = new PdfView();
-                    
-                    aPdfView.OrganizationId = movement.OrganizationId;
-                    aPdfView.OrganizationName = movement.OrganizationName;
-                    aPdfView.AssetId = movement.AssetId;
-                    aPdfView.AssecCode = movementVM.Code;
-                    aPdfView.AssetSerialNo = movementVM.SerialNo;
-                    aPdfView.GeneralCategory = movementVM.GeneralCategoryName;
-                    aPdfView.Category = movementVM.CategoryNme;
-                    aPdfView.Brand = movementVM.BrandName;
-                    aPdfView.FromBranch = movement.BranchName;
-                    aPdfView.ToBranch = branchManager.GetById(movement.BranchId).Name;
-                    aPdfView.MovedBy =movement.MoveBy;
-                    aPdfView.Date = movement.RegistrationDate;
 
-                    GeneratePdf(aPdfView);
+                    aPdfView.OrganizationId = mo.OrganizationId;
+                    aPdfView.OrganizationName = mo.OrganizationName;
+                    aPdfView.AssetId = mo.AssetId;
+                    aPdfView.AssecCode = mo.Code;
+                    aPdfView.AssetSerialNo = mo.SerialNo;
+                    aPdfView.GeneralCategory = mo.GeneralCategoryName;
+                    aPdfView.Category = mo.CategoryNme;
+                    aPdfView.Brand = mo.BrandName;
+                    aPdfView.FromBranch = mo.BranchName;
+                    aPdfView.ToBranch = branchManager.GetById(mo.BranchId).Name;
+                    aPdfView.MovedBy = mo.MoveBy;
+                    aPdfView.Date = mo.RegistrationDate;
+
+                    pdfList.Add(aPdfView);
+                }
+                GeneratePdf(pdfList, DateTime.Now.Date.ToString(), Session["username"].ToString());
+            }
+            return RedirectToAction("Entry");
+
+        }
+        public ActionResult MovementCart(MovementEntryVM movement)
+        {
+            List<MovementEntryVM> list = new List<MovementEntryVM>();
+            if (Session["CartList"] != null)
+            {
+                list = (List<MovementEntryVM>)Session["CartList"];
+            }
+
+            foreach (var k in list)
+            {
+                if (k.AssetId == movement.AssetId)
+                {
+                    return RedirectToAction("Entry");
                 }
             }
-            return View(model);
+            list.Add(movement);
+
+            Session["CartList"] = list;
+
+            return RedirectToAction("Entry");
+        }
+
+        public ActionResult ItemDelete(int? Id)
+        {
+            List<MovementEntryVM> CartList = new List<MovementEntryVM>();
+            CartList = Session["CartList"] as List<MovementEntryVM>;
+            var itemToRemove = CartList.SingleOrDefault(x => x.AssetId == Convert.ToInt32(Id));
+            CartList.Remove(itemToRemove);
+            Session["CartList"] = CartList;
+            return RedirectToAction("Entry");
         }
 
         public ActionResult MovementList()
@@ -151,114 +234,65 @@ namespace ATSystem.Controllers
             return View();
         }
 
-        public void GeneratePdf(PdfView sList)
+        public ActionResult GeneratePdf(List<PdfView> sList, string date,string fromuser)
         {
             var document = new Document(PageSize.A4, 10, 10, 42, 35);
             PdfWriter.GetInstance(document, Response.OutputStream);
             document.Open();
 
 
-            var head = new Paragraph(sList.Date+"\n"+sList.OrganizationName+"\n\n");
+            var head = new Paragraph(date + "\n\n");
             head.Alignment = Element.ALIGN_LEFT;
             document.Add(head);
+            var serial = new Paragraph("MoveBy : "+fromuser);
+            serial.Alignment = Element.ALIGN_LEFT;
+            document.Add(serial);
+            var table = new PdfPTable(4) { TotalWidth = 316f };
+            var widths = new float[] { 4f, 2f, 2f, 2f};
+            table.SetWidths(widths);
+            table.HorizontalAlignment = 0;
+            table.SpacingBefore = 30f;
+            table.SpacingAfter = 40f;
+            table.DeleteBodyRows();
 
-            //var date = new Paragraph(sList.Date);
-            //date.Alignment = Element.ALIGN_RIGHT;
-            //document.Add(date);
 
-            var info = new Paragraph("Asset Code : "+sList.AssecCode+"\n"+ "Serial No : " + sList.AssetSerialNo + "\n" + "General Category: " + sList.GeneralCategory + "\n" + "Category     : " + sList.Category + "\n" + "Brand     : " + sList.Brand + "\n\n");
-            info.Alignment = Element.ALIGN_LEFT;
-            document.Add(info);
 
-            var move=new Paragraph("This Item Movement \n"+"From"+"                                      "+"To\n"+ sList.FromBranch + "                     " + sList.ToBranch+"\n");
-            move.Alignment = Element.ALIGN_LEFT;
-            document.Add(move);
+            
+            table.AddCell("Code");
+            table.AddCell("Category");
+            table.AddCell("Brand");
+            table.AddCell("To");
+            foreach (var c in sList)
+            {
+                
+                table.AddCell(c.AssecCode);
+                table.AddCell(c.Category);
+                table.AddCell(c.Brand);
+                table.AddCell(c.ToBranch);
+            }
 
-            var signeture = new Paragraph("Signature"+"                            "+ "Signature\n\n"+ "----------------" + "                      " + "---------------");
-            signeture.Alignment = Element.ALIGN_LEFT;
+            document.Add(table);
+
+            var signeture = new Paragraph("Signature" + "                            " + "Signature\n\n" + "----------------" + "                      " + "---------------");
+            signeture.Alignment = Element.ALIGN_BOTTOM;
             document.Add(signeture);
-            //var serial = new Paragraph(sList.AssetSerialNo);
-            //serial.Alignment = Element.ALIGN_LEFT;
-            //document.Add(serial);
+            
 
-            //var gCategory = new Paragraph(sList.GeneralCategory);
-            //gCategory.Alignment = Element.ALIGN_LEFT;
-            //document.Add(gCategory);
+           
 
-            //var category = new Paragraph(sList.Category);
-            //category.Alignment = Element.ALIGN_CENTER;
-            //document.Add(category);
-
-            //var brand = new Paragraph(sList.Brand);
-            //brand.Alignment = Element.ALIGN_CENTER;
-            //document.Add(brand);
-
-            //var From = new Paragraph("From");
-            //From.Alignment = Element.ALIGN_LEFT;
-            //document.Add(From);
-
-            //var FBranch = new Paragraph("the<\n>"+sList.FromBranch);
-            //FBranch.Alignment = Element.ALIGN_LEFT;
-            //document.Add(FBranch);
-
-            //var To = new Paragraph("To");
-            //To.Alignment = Element.ALIGN_RIGHT;
-            //document.Add(To);
-
-            //var TBranch = new Paragraph(sList.ToBranch);
-            //TBranch.Alignment = Element.ALIGN_RIGHT;
-            //document.Add(TBranch);
-
-
-
-            //var newline = new Paragraph("\n");
-            //document.Add(newline);
-
-
-            //create pdf table
-            //var table = new PdfPTable(5) { TotalWidth = 316f };
-            //var widths = new float[] { 4f, 2f, 2f, 2f, 2f };
-            //table.SetWidths(widths);
-            //table.HorizontalAlignment = 0;
-            //table.SpacingBefore = 30f;
-            //table.SpacingAfter = 40f;
-            //table.DeleteBodyRows();
-
-
-            //double total = 0;
-            //double countProduct = 0;
-            //double buyPrice = 0;
-            //double profit = total - buyPrice;
-
-
-            //table.AddCell("Product Name");
-            //table.AddCell("Code");
-            //table.AddCell("Price");
-            //table.AddCell("Quantity");
-            //table.AddCell("Sub Total");
-            //table.AddCell("Warrenty");
-            //foreach (var c in sList)
-            //{
-            //    table.AddCell(c.Product.Name);
-            //    table.AddCell(c.Product.Code);
-            //    table.AddCell(c.Product.SellPrice.ToString());
-            //    table.AddCell(c.Quantity.ToString());
-            //    double sub = c.Product.SellPrice * c.Quantity;
-            //    table.AddCell(sub.ToString());
-
-            //    total += sub;
-            //    countProduct += c.Quantity;
-            //    buyPrice += c.Product.BuyPrice;
-            //}
-
-            //string pDate = DateTime.Now.ToString();
-            //table.HorizontalAlignment = Element.ALIGN_CENTER;
-            //document.Add(table);
 
             document.Close();
             Response.ContentType = "application/pdf";
             Response.AddHeader("content-disposition", "attachment;  filename =Movement.pdf");
             Response.End();
+            return RedirectToAction("Entry");
+        }
+
+        public ActionResult Clear()
+        {
+            Session["Printed"]="";
+            Session["CartList"] = null;
+            return RedirectToAction("Entry");
         }
     }
 }

@@ -11,10 +11,10 @@ namespace ATSystem.Models.ViewModel.Movement
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Date Required")]
+        //[Required(ErrorMessage = "Date Required")]
         public string RegistrationDate { get; set; }
 
-        [Required (ErrorMessage = "Asset Required")]
+        //[Required (ErrorMessage = "Asset Required")]
         public int AssetId { get; set; }
         public string Code { get; set; }
         public string SerialNo { get; set; }
@@ -26,10 +26,10 @@ namespace ATSystem.Models.ViewModel.Movement
         public string CategoryNme { get; set; }
         public int GeneralCategoryId { get; set; }
         public string GeneralCategoryName { get; set; }
-        [Required(ErrorMessage = "Organization Required")]
+        //[Required(ErrorMessage = "Organization Required")]
         public int OrganizationId { get; set; }
         public string OrganizationName { get; set; }
-        [Required(ErrorMessage = "Branch Required")]
+        //[Required(ErrorMessage = "Branch Required")]
         public int BranchId { get; set; }
         public string BranchName { get; set; }
 

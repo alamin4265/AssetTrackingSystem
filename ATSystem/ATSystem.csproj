@@ -874,6 +874,7 @@
     <Compile Include="Models\Interface\DAL\IOrganizationRepository.cs" />
     <Compile Include="Models\Interface\DAL\IProductCategoryRepository.cs" />
     <Compile Include="Models\Interface\DAL\IUserRepository.cs" />
+    <Compile Include="Models\MovementAuthorityN.cs" />
     <Compile Include="Models\ViewModel\AssetRegistration\AssetRegistrationCreateVM.cs" />
     <Compile Include="Models\ViewModel\Asset\AssetDetailsVM.cs" />
     <Compile Include="Models\ViewModel\Asset\AssetEntryVM.cs" />

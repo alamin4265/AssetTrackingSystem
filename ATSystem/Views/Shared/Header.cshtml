@@ -84,14 +84,13 @@
                         }
                         <li>@Html.ActionLink("Resource Movement List", "MovementList", "Movement")</li>
 
-                        @if (@Session["Designation"].ToString() == "Organization Owner")
+                        @if (@Session["Designation"].ToString() != "Organization Owner")
                         {
                             <li>
                                 <a href="@Url.Action("Index", "MovementAuthority")">Authority</a>
                             </li>
                         }
-
-                        <li>@Html.ActionLink("Movement Status", "Status", "MovementAuthority")</li>
+                        <li>@Html.ActionLink("Pending Movement", "Status", "MovementAuthority")</li>
                     </ul>
                 </li>
 
