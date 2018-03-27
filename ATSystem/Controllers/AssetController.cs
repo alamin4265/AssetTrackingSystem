@@ -70,6 +70,7 @@ namespace ATSystem.Controllers
             {
                 var assetEntry = Mapper.Map<Asset>(assetEntryVm);
                 assetEntry.Registered = false;
+                assetEntry.Organization = Session["organizationName"].ToString();
                 assetManager.Add(assetEntry);
 
                 //var newAssetEntry = Mapper.Map<NewAsset>(assetEntryVm);
@@ -205,9 +206,9 @@ namespace ATSystem.Controllers
 
         public JsonResult GetAllAsset()
         {
-            var totalRecord = assetManager.GetAllAssetWithGeneral_Category_SubCategory_Brand_Product().Count;
+            var totalRecord = assetManager.GetAllAssetWithGeneral_Category_SubCategory_Brand_Product(Session["organizationName"].ToString()).Count;
            
-            var assetlist = assetManager.GetAllAssetWithGeneral_Category_SubCategory_Brand_Product();
+            var assetlist = assetManager.GetAllAssetWithGeneral_Category_SubCategory_Brand_Product(Session["organizationName"].ToString());
 
             //.OrderBy(sortColumn + " " + sortColumnDir)
             var assets = assetlist.Select(c => new
@@ -233,7 +234,7 @@ namespace ATSystem.Controllers
         public JsonResult GetSelectedAllCategorybyid(int? id)
         {
             var Assetlistwithallcategorybyid =
-                assetManager.GetAllAssetWithGeneral_Category_SubCategory_Brand_Product()
+                assetManager.GetAllAssetWithGeneral_Category_SubCategory_Brand_Product(Session["organizationName"].ToString())
                     .Where(c => c.Id == id)
                     .Select(c => new
                     {

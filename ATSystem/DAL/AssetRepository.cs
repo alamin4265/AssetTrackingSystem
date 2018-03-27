@@ -23,9 +23,9 @@ namespace ATSystem.DAL
             get { return _db as AssetDbContext;}
         }
 
-        public ICollection<AssetEntryVm> GetAllAssetWithGeneral_Category_SubCategory_Brand_Product()
+        public ICollection<AssetEntryVm> GetAllAssetWithGeneral_Category_SubCategory_Brand_Product(string org)
         {
-            var joinlist = from a in Context.Asset.Where(c=>c.Registered==false)
+            var joinlist = from a in Context.Asset.Where(c=>c.Registered==false && c.Organization== org)
                 join b in Context.Brand
                 on a.BrandId equals b.Id
                 join c in Context.Category

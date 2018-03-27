@@ -35,6 +35,7 @@ namespace ATSystem.Models.ViewModel.Asset
         public int BrandId { get; set; }
         public string BrandName { get; set; }
         public int ProductDetailsId { get; set; }
+        public string Organiztion { get; set; }
 
         public Models.Entity.GeneralCategory GeneralCategory { get; set; }
         public Entity.Category Category { get; set; }

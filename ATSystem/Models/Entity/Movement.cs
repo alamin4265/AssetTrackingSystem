@@ -14,9 +14,9 @@ namespace ATSystem.Models.Entity
         public string OrganizationName { get; set; }
         public string BranchName { get; set; }
 
-        [Column("MoveToOrganization")]
+        //[Column("MoveToOrganization")]
         public int OrganizationId { get; set; }
-        [Column("MoveToBranch")]
+        //[Column("MoveToBranch")]
         public int BranchId { get; set; }
 
         public string MoveBy { get; set; }

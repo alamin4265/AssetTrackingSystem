@@ -11,7 +11,7 @@ namespace ATSystem.Models.Interface.DAL
 {
     public interface IAssetRepository:IRepository<Asset>
     {
-        ICollection<AssetEntryVm> GetAllAssetWithGeneral_Category_SubCategory_Brand_Product();
+        ICollection<AssetEntryVm> GetAllAssetWithGeneral_Category_SubCategory_Brand_Product(string org);
 
         ICollection<AssetEntryVm> GetSome(int n);
 

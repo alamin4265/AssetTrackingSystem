@@ -17,5 +17,6 @@ namespace ATSystem.Models.Entity
         public int BrandId { get; set; }
         public virtual Brand Brand { get; set; }
         public bool Registered  { get; set; }
+        public string Organization { get; set; }
     }
 }

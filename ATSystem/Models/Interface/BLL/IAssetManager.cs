@@ -11,7 +11,7 @@ namespace ATSystem.Models.Interface.BLL
 {
     public interface IAssetManager:IManager<Asset>
     {
-        ICollection<AssetEntryVm> GetAllAssetWithGeneral_Category_SubCategory_Brand_Product();
+        ICollection<AssetEntryVm> GetAllAssetWithGeneral_Category_SubCategory_Brand_Product(string org);
 
         ICollection<AssetEntryVm> GetSome(int n);
 

@@ -53,9 +53,9 @@ namespace ATSystem.BAL
             return repository.Get(predicate);
         }
 
-        public ICollection<AssetEntryVm> GetAllAssetWithGeneral_Category_SubCategory_Brand_Product()
+        public ICollection<AssetEntryVm> GetAllAssetWithGeneral_Category_SubCategory_Brand_Product(string org)
         {
-            return repository.GetAllAssetWithGeneral_Category_SubCategory_Brand_Product();
+            return repository.GetAllAssetWithGeneral_Category_SubCategory_Brand_Product(org);
         }
 
         public ICollection<AssetEntryVm> GetSome(int n)
